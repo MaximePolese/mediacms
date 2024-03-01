@@ -36,3 +36,13 @@ def download_csv(file_path):
                 [competition_number, competition_name, number, horse, rider, picture, prefix, extension, comment])
     print(data)
     return data
+
+# todo :
+# def upload_media(path):
+#     media_file = os.path.join(settings.MEDIA_ROOT, self.upload.real_path)
+#     with open(media_file, "rb") as f:
+#         myfile = File(f)
+#         new = Media.objects.create(media_file=myfile, user=self.request.user)
+#     rm_file(media_file)
+#     shutil.rmtree(os.path.join(settings.MEDIA_ROOT, self.upload.file_path))
+#     return self.make_response({"success": True, "media_url": new.get_absolute_url()})
