@@ -9,7 +9,7 @@ DEBUG = False
 PORTAL_NAME = "MediaCMS"
 PORTAL_DESCRIPTION = ""
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "Europe/London"
+TIME_ZONE = "Europe/Paris"
 
 # who can add media
 # valid options include 'all', 'email_verified', 'advancedUser'
@@ -21,12 +21,11 @@ PORTAL_WORKFLOW = "public"
 # valid values: 'light', 'dark'.
 DEFAULT_THEME = "light"
 
-
 # These are passed on every request
 # if set to False will not fetch external content
 # this is only for the static files, as fonts/css/js files loaded from CDNs
 # not for user uploaded media!
-LOAD_FROM_CDN = False
+LOAD_FROM_CDN = True
 LOGIN_ALLOWED = True  # whether the login button appears
 REGISTER_ALLOWED = True  # whether the register button appears
 UPLOAD_MEDIA_ALLOWED = True  # whether the upload media button appears
@@ -69,7 +68,6 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_HOST = "mediacms.io"
 EMAIL_PORT = 587
 ADMIN_EMAIL_LIST = ["info@mediacms.io"]
-
 
 MEDIA_IS_REVIEWED = True  # whether an admin needs to review a media file.
 # By default consider this is not needed.
@@ -140,7 +138,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-
 SECRET_KEY = "2dii4cog7k=5n37$fz)8dst)kg(s3&10)^qa*gv(kk+nv-z&cu"
 # TODO: this needs to be changed!
 
@@ -197,7 +194,6 @@ ADMINS_NOTIFICATIONS = {
     "MEDIA_ENCODED": False,  # not implemented
     "MEDIA_REPORTED": True,  # in use
 }
-
 
 # this is for fineuploader - media uploads
 UPLOAD_DIR = "uploads/"
@@ -268,7 +264,6 @@ CKEDITOR_CONFIGS = {
         ],
     }
 }
-
 
 AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "/"
@@ -398,7 +393,6 @@ DATABASES = {
     }
 }
 
-
 REDIS_LOCATION = "redis://127.0.0.1:6379/1"
 CACHES = {
     "default": {
@@ -439,6 +433,11 @@ CELERY_BEAT_SCHEDULE = {
         "task": "update_listings_thumbnails",
         "schedule": crontab(minute=2, hour="*/30"),
     },
+    "upload_csv_task": {
+        "task": "upload_csv_task",
+        "schedule": crontab(minute="*/3"),
+        "args": ['file1.csv'],
+    },
 }
 # TODO: beat, delete chunks from media root
 # chunks_dir after xx days...(also uploads_dir)
@@ -456,7 +455,6 @@ CELERY_TASK_ALWAYS_EAGER = False
 if os.environ.get("TESTING"):
     CELERY_TASK_ALWAYS_EAGER = True
 
-
 try:
     # keep a local_settings.py file for local overrides
     from .local_settings import *  # noqa
@@ -466,7 +464,6 @@ try:
 except ImportError:
     # local_settings not in use
     pass
-
 
 if "http" not in FRONTEND_HOST:
     # FRONTEND_HOST needs a http:// preffix

@@ -10,6 +10,7 @@ from celery import Task
 from celery import shared_task as task
 from celery.exceptions import SoftTimeLimitExceeded
 from celery.signals import task_revoked
+from django.core.management import call_command
 
 # from celery.task.control import revoke
 from celery.utils.log import get_task_logger
@@ -36,6 +37,7 @@ from .helpers import (
 )
 from .methods import list_tasks, notify_users, pre_save_action
 from .models import Category, EncodeProfile, Encoding, Media, Rating, Tag
+from uploader.management.commands import uploadcsv
 
 logger = get_task_logger(__name__)
 
@@ -160,18 +162,19 @@ class EncodingTask(Task):
     soft_time_limit=settings.CELERY_SOFT_TIME_LIMIT,
 )
 def encode_media(
-    self,
-    friendly_token,
-    profile_id,
-    encoding_id,
-    encoding_url,
-    force=True,
-    chunk=False,
-    chunk_file_path="",
+        self,
+        friendly_token,
+        profile_id,
+        encoding_id,
+        encoding_url,
+        force=True,
+        chunk=False,
+        chunk_file_path="",
 ):
     """Encode a media to given profile, using ffmpeg, storing progress"""
 
-    logger.info("Encode Media started, friendly token {0}, profile id {1}, force {2}".format(friendly_token, profile_id, force))
+    logger.info(
+        "Encode Media started, friendly token {0}, profile id {1}, force {2}".format(friendly_token, profile_id, force))
 
     if self.request.id:
         task_id = self.request.id
@@ -189,7 +192,8 @@ def encode_media(
         # TODO: in case a video is chunkized and this enters here many times
         # it will always run since chunk_file_path is always different
         # thus find a better way for this check
-        if Encoding.objects.filter(media=media, profile=profile, chunk_file_path=chunk_file_path).count() > 1 and force is False:
+        if Encoding.objects.filter(media=media, profile=profile,
+                                   chunk_file_path=chunk_file_path).count() > 1 and force is False:
             Encoding.objects.filter(id=encoding_id).delete()
             return False
         else:
@@ -479,7 +483,8 @@ def check_running_states():
 def check_media_states():
     # Experimental - unused
     # check encoding status of not success media
-    media = Media.objects.filter(Q(encoding_status="running") | Q(encoding_status="fail") | Q(encoding_status="pending"))
+    media = Media.objects.filter(
+        Q(encoding_status="running") | Q(encoding_status="fail") | Q(encoding_status="pending"))
 
     logger.info("got {0} media that are not in state success".format(media.count()))
 
@@ -511,8 +516,8 @@ def check_pending_states():
             # encoding is in one of the active/reserved/scheduled tasks list
             continue
         elif (
-            encoding.media.friendly_token,
-            encoding.profile.id,
+                encoding.media.friendly_token,
+                encoding.profile.id,
         ) in media_profile_pairs:
             continue
             # encoding is in one of the reserved/scheduled tasks list.
@@ -595,11 +600,11 @@ def save_user_action(user_or_session, friendly_token=None, action="watch", extra
 
     if action in ["like", "dislike", "watch", "report"]:
         if not pre_save_action(
-            media=media,
-            user=user,
-            session_key=session_key,
-            action=action,
-            remote_ip=remote_ip,
+                media=media,
+                user=user,
+                session_key=session_key,
+                action=action,
+                remote_ip=remote_ip,
         ):
             return False
 
@@ -718,7 +723,8 @@ def update_listings_thumbnails():
     saved = 0
     qs = Category.objects.filter().order_by("-media_count")
     for object in qs:
-        media = Media.objects.exclude(friendly_token__in=used_media).filter(category=object, state="public", is_reviewed=True).order_by("-views").first()
+        media = Media.objects.exclude(friendly_token__in=used_media).filter(category=object, state="public",
+                                                                            is_reviewed=True).order_by("-views").first()
         if media:
             object.listings_thumbnail = media.thumbnail_url
             object.save(update_fields=["listings_thumbnail"])
@@ -731,7 +737,8 @@ def update_listings_thumbnails():
     saved = 0
     qs = Tag.objects.filter().order_by("-media_count")
     for object in qs:
-        media = Media.objects.exclude(friendly_token__in=used_media).filter(tags=object, state="public", is_reviewed=True).order_by("-views").first()
+        media = Media.objects.exclude(friendly_token__in=used_media).filter(tags=object, state="public",
+                                                                            is_reviewed=True).order_by("-views").first()
         if media:
             object.listings_thumbnail = media.thumbnail_url
             object.save(update_fields=["listings_thumbnail"])
@@ -782,11 +789,19 @@ def remove_media_file(media_file=None):
     rm_file(media_file)
     return True
 
+    # TODO LIST
+    # 1 chunks are deleted from original server when file is fully encoded.
+    # however need to enter this logic in cases of fail as well
+    # 2 script to delete chunks in fail status
+    # (and check for their encdings, and delete them as well, along with
+    # all chunks)
+    # 3 beat task, remove chunks
 
-# TODO LIST
-# 1 chunks are deleted from original server when file is fully encoded.
-# however need to enter this logic in cases of fail as well
-# 2 script to delete chunks in fail status
-# (and check for their encdings, and delete them as well, along with
-# all chunks)
-# 3 beat task, remove chunks
+
+@task(name="upload_csv_task", queue="long_tasks")
+def upload_csv_task(csv_file):
+    try:
+        call_command("uploadcsv", csv_file)
+        print("Données chargées depuis %s" % csv_file)
+    except Exception as e:
+        print(f"Erreur lors du chargement des données depuis {csv_file}: {e}")

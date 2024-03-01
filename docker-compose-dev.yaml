@@ -38,7 +38,7 @@ services:
     environment:
       DEVELOPMENT_MODE: "True"
       ADMIN_USER: 'admin'
-      ADMIN_PASSWORD: 'admin'
+      ADMIN_PASSWORD: 'ascanio'
       ADMIN_EMAIL: 'admin@localhost'
     ports:
       - "80:80"
@@ -51,6 +51,8 @@ services:
     volumes:
       - ../postgres_data:/var/lib/postgresql/data/
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: mediacms
       POSTGRES_PASSWORD: mediacms
@@ -78,7 +80,7 @@ services:
     environment:
       ENABLE_UWSGI: 'no'
       ENABLE_NGINX: 'no'
-      ENABLE_CELERY_BEAT: 'no'
+      ENABLE_CELERY_BEAT: 'yes'
       ENABLE_MIGRATIONS: 'no'
     depends_on:
       - web
