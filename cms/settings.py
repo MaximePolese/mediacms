@@ -433,8 +433,8 @@ CELERY_BEAT_SCHEDULE = {
         "task": "update_listings_thumbnails",
         "schedule": crontab(minute=2, hour="*/30"),
     },
-    "upload_csv_task": {
-        "task": "upload_csv_task",
+    "upload_medias_from_ftp": {
+        "task": "upload_medias_from_ftp",
         "schedule": crontab(minute="*/3"),
         "args": ['file1.csv'],
     },

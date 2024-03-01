@@ -37,7 +37,7 @@ from .helpers import (
 )
 from .methods import list_tasks, notify_users, pre_save_action
 from .models import Category, EncodeProfile, Encoding, Media, Rating, Tag
-from uploader.management.commands import uploadcsv
+from uploader.management.commands.upload_medias import download_csv
 
 logger = get_task_logger(__name__)
 
@@ -798,10 +798,6 @@ def remove_media_file(media_file=None):
     # 3 beat task, remove chunks
 
 
-@task(name="upload_csv_task", queue="long_tasks")
-def upload_csv_task(csv_file):
-    try:
-        call_command("uploadcsv", csv_file)
-        print("Données chargées depuis %s" % csv_file)
-    except Exception as e:
-        print(f"Erreur lors du chargement des données depuis {csv_file}: {e}")
+@task(name="upload_medias_from_ftp", queue="long_tasks")
+def upload_medias_from_ftp(csv_file):
+    download_csv(csv_file)
