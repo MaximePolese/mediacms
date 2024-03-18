@@ -13,7 +13,7 @@ TIME_ZONE = "Europe/Paris"
 
 # who can add media
 # valid options include 'all', 'email_verified', 'advancedUser'
-CAN_ADD_MEDIA = "all"
+CAN_ADD_MEDIA = "advancedUser"
 
 # valid choices here are 'public', 'private', 'unlisted
 PORTAL_WORKFLOW = "public"
@@ -27,11 +27,11 @@ DEFAULT_THEME = "light"
 # not for user uploaded media!
 LOAD_FROM_CDN = True
 LOGIN_ALLOWED = True  # whether the login button appears
-REGISTER_ALLOWED = True  # whether the register button appears
+REGISTER_ALLOWED = False  # whether the register button appears
 UPLOAD_MEDIA_ALLOWED = True  # whether the upload media button appears
-CAN_LIKE_MEDIA = True  # whether the like media appears
-CAN_DISLIKE_MEDIA = True  # whether the dislike media appears
-CAN_REPORT_MEDIA = True  # whether the report media appears
+CAN_LIKE_MEDIA = False  # whether the like media appears
+CAN_DISLIKE_MEDIA = False  # whether the dislike media appears
+CAN_REPORT_MEDIA = False  # whether the report media appears
 CAN_SHARE_MEDIA = True  # whether the share media appears
 # how many times an item need be reported
 # to get to private state automatically
@@ -436,7 +436,6 @@ CELERY_BEAT_SCHEDULE = {
     "upload_medias_from_ftp": {
         "task": "upload_medias_from_ftp",
         "schedule": crontab(minute="*/3"),
-        "args": ['file1.csv'],
     },
 }
 # TODO: beat, delete chunks from media root

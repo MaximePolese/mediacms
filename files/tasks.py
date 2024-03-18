@@ -799,5 +799,5 @@ def remove_media_file(media_file=None):
 
 
 @task(name="upload_medias_from_ftp", queue="long_tasks")
-def upload_medias_from_ftp(csv_file):
-    download_csv(csv_file)
+def upload_medias_from_ftp():
+    download_csv()

@@ -7,22 +7,22 @@ module.exports = {
   },
   headerBar: {
     hideLogin: false,
-    hideRegister: false,
+    hideRegister: true,
   },
   sideBar: {
     hideHomeLink: false,
-    hideTagsLink: false,
+    hideTagsLink: true,
     hideCategoriesLink: false,
   },
   media: {
     actions: {
       share: true,
-      report: true,
-      like: true,
-      dislike: true,
+      report: false,
+      like: false,
+      dislike: false,
       download: true,
-      comment: true,
-      save: true,
+      comment: false,
+      save: false,
     },
     shareOptions: [
       'embed',
@@ -42,7 +42,7 @@ module.exports = {
   mediaItem: {
     hideDate: false,
     hideViews: false,
-    hideAuthor: false,
+    hideAuthor: true,
   },
   playlists: {
     mediaTypes: ['audio', 'video'],
