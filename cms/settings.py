@@ -435,7 +435,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     "upload_medias_from_ftp": {
         "task": "upload_medias_from_ftp",
-        "schedule": crontab(minute="*/3"),
+        "schedule": crontab(hour="*/3"),
     },
 }
 # TODO: beat, delete chunks from media root

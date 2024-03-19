@@ -9,9 +9,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
 from files.helpers import rm_file
-from files.models import Media
+from files.models import Media, Category
 from users.models import User
-from ftplib import FTP
 
 
 class Command(BaseCommand):
@@ -21,8 +20,8 @@ class Command(BaseCommand):
     #     parser.add_argument('file_path', type=str, help='Path to the CSV file')
 
     def handle(self, *args, **options):
-        download_csv()
-        upload_media()
+        data = download_csv()
+        upload_media(data)
         self.stdout.write(self.style.SUCCESS('Data imported successfully'))
 
 
@@ -39,9 +38,9 @@ def download_csv():
             horse = row[3]
             rider = row[4]
             try:
-                picture = int(row[5])
+                picture = row[5]
             except ValueError:
-                picture = 999
+                picture = "no name available"
             prefix = row[6]
             extension = row[7]
             comment = row[8]
@@ -51,40 +50,36 @@ def download_csv():
     return data
 
 
-def upload_media():
+def upload_media(data):
     source_directory = "/home/mediacms.io/mediacms/videos"
     all_files = os.listdir(source_directory)
     video_files = [file for file in all_files if file.endswith('.mp4')]
     print(video_files)
 
     for video_file in video_files:
+        video_file_name = video_file.split('.')[0]
+        title = ""
+        category_name = ""
+        for row in data:
+            picture = str(row[5])
+            if picture == video_file_name:
+                title = row[4] + " " + row[3]
+                category_name = row[1]
+        print(title, category_name)
+
+        if Category.objects.filter(title=category_name).exists():
+            new_category = Category.objects.get(title=category_name)
+        else:
+            new_category = Category.objects.create(title=category_name)
+
         source_file_path = os.path.join(source_directory, video_file)
         print(source_file_path)
         destination_file_path = os.path.join(settings.MEDIA_ROOT, video_file)
         print(destination_file_path)
         shutil.copy2(source_file_path, destination_file_path)
 
-        media_file = destination_file_path
-        with open(media_file, "rb") as f:
-            myfile = File(f)
-            user = User.objects.get(username='admin')
-            new = Media.objects.create(media_file=myfile, user=user)
-        rm_file(media_file)
-
-# def download_from_ftp(ftp_server, ftp_user, ftp_password, ftp_path):
-#     ftp = FTP(ftp_server)
-#     ftp.login(ftp_user, ftp_password)
-#     ftp.cwd(ftp_path)
-#
-#     video_directory = os.path.join(settings.MEDIA_ROOT, "videos")
-#     if not os.path.exists(video_directory):
-#         os.makedirs(video_directory)
-#
-#     filenames = ftp.nlst()
-#     for filename in filenames:
-#         if filename.endswith('.mp4'):
-#             local_path = os.path.join(video_directory, filename)
-#             with open(local_path, 'wb') as f:
-#                 ftp.retrbinary('RETR ' + filename, f.write)
-#
-#     ftp.quit()
+        user = User.objects.get(username='admin')
+        with open(destination_file_path, "rb") as f:
+            new_media = Media.objects.create(title=title, media_file=File(f), user=user)
+            new_media.category.add(new_category)
+        rm_file(destination_file_path)
