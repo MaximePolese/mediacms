@@ -139,7 +139,7 @@ export function HeaderRight(props) {
                       </CircleIconButton>
                     </div>
 
-                    <UploadMediaButton user={user} links={links} />
+                    {/*<UploadMediaButton user={user} links={links} />*/}
 
                     <div
                       className={

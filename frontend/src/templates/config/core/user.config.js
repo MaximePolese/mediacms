@@ -21,10 +21,10 @@ module.exports = {
     addComment: false,
     deleteComment: false,
     editProfile: true,
-    deleteProfile: true,
+    deleteProfile: false,
     manageMedia: true,
-    manageUsers: true,
-    manageComments: true,
+    manageUsers: false,
+    manageComments: false,
     contactUser: false,
   },
   pages: {
