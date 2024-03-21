@@ -240,7 +240,7 @@ export default function ViewerInfoContent(props) {
         </div>
       </div>
 
-      <CommentsList />
+      {/*<CommentsList />*/}
     </div>
   );
 }
