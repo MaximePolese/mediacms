@@ -75,16 +75,16 @@ function headerPopupPages(user, popupNavItems, hasHeaderThemeSwitcher) {
   return pages;
 }
 
-function UploadMediaButton({ user, links }) {
-  return !user.is.anonymous && user.can.addMedia ? (
-    <div className={'hidden-only-in-small'}>
-      <CircleIconButton type="link" href={links.user.addMedia} title="Upload media">
-        <MaterialIcon type="video_call" />
-        <span className="hidden-txt">Upload media</span>
-      </CircleIconButton>
-    </div>
-  ) : null;
-}
+// function UploadMediaButton({ user, links }) {
+//   return !user.is.anonymous && user.can.addMedia ? (
+//     <div className={'hidden-only-in-small'}>
+//       <CircleIconButton type="link" href={links.user.addMedia} title="Upload media">
+//         <MaterialIcon type="video_call" />
+//         <span className="hidden-txt">Upload media</span>
+//       </CircleIconButton>
+//     </div>
+//   ) : null;
+// }
 
 function LoginButton({ user, link, hasHeaderThemeSwitcher }) {
   return user.is.anonymous && user.can.login ? (

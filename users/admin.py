@@ -8,7 +8,6 @@ class UserAdmin(admin.ModelAdmin):
     exclude = (
         "user_permissions",
         "title",
-        "password",
         "groups",
         "last_login",
         "is_featured",
@@ -22,6 +21,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = [
         "username",
         "name",
+        "password",
         "email",
         "logo",
         "date_added",
