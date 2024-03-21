@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTheme } from '../../../utils/hooks/';
 
-export const SidebarThemeSwitcher: React.FC = () => {
+export const SidebarThemeSwitcher: () => false | JSX.Element = () => {
   const { currentThemeMode, changeThemeMode, themeModeSwitcher } = useTheme();
 
   return (
