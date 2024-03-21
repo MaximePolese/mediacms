@@ -427,7 +427,7 @@ export default function ProfilePagesHeader(props) {
     userIsAuthor || (!MemberContext._currentValue.is.anonymous && MemberContext._currentValue.can.editProfile);
   const userCanDeleteProfile =
     userIsAdmin ||
-    userIsAuthor ||
+    // userIsAuthor ||
     (!MemberContext._currentValue.is.anonymous && MemberContext._currentValue.can.deleteProfile);
 
   function updateProfileNavTopPosition() {
