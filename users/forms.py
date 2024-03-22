@@ -18,9 +18,10 @@ class UserForm(forms.ModelForm):
         model = User
         fields = (
             "name",
+            "email",
             "description",
             "logo",
-            "notification_on_comments",
+            # "notification_on_comments",
             "is_featured",
             "advancedUser",
             "is_manager",
