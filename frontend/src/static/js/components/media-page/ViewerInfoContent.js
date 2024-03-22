@@ -208,11 +208,11 @@ export default function ViewerInfoContent(props) {
           {userCan.editMedia || userCan.editSubtitle || userCan.deleteMedia ? (
             <div className="media-author-actions">
               {userCan.editMedia ? <EditMediaButton link={MediaPageStore.get('media-data').edit_url} /> : null}
-              {userCan.editSubtitle && 'video' === MediaPageStore.get('media-data').media_type ? (
-                <EditSubtitleButton
-                  link={MediaPageStore.get('media-data').edit_url.replace('edit?', 'add_subtitle?')}
-                />
-              ) : null}
+              {/*{userCan.editSubtitle && 'video' === MediaPageStore.get('media-data').media_type ? (*/}
+              {/*  <EditSubtitleButton*/}
+              {/*    link={MediaPageStore.get('media-data').edit_url.replace('edit?', 'add_subtitle?')}*/}
+              {/*  />*/}
+              {/*) : null}*/}
 
               <PopupTrigger contentRef={popupContentRef}>
                 <button className="remove-media">DELETE MEDIA</button>

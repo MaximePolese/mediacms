@@ -64,14 +64,14 @@ export default class ViewerInfoVideoTitleBanner extends ViewerInfoTitleBanner {
             <div>
               {MemberContext._currentValue.can.likeMedia ? <MediaLikeIcon /> : null}
               {MemberContext._currentValue.can.dislikeMedia ? <MediaDislikeIcon /> : null}
-              {MemberContext._currentValue.can.shareMedia ? <MediaShareButton isVideo={true} /> : null}
 
-              {!MemberContext._currentValue.is.anonymous &&
+               {!MemberContext._currentValue.is.anonymous &&
                 MemberContext._currentValue.can.saveMedia &&
                 -1 < PlaylistsContext._currentValue.mediaTypes.indexOf(MediaPageStore.get('media-type')) ? (
                 <MediaSaveButton />
               ) : null}
 
+              {MemberContext._currentValue.can.shareMedia ? <MediaShareButton isVideo={true} /> : null}
               {!this.props.allowDownload || !MemberContext._currentValue.can.downloadMedia ? null : !this
                 .downloadLink ? (
                 <VideoMediaDownloadLink />
@@ -79,7 +79,7 @@ export default class ViewerInfoVideoTitleBanner extends ViewerInfoTitleBanner {
                 <OtherMediaDownloadLink link={this.downloadLink} title={this.props.title} />
               )}
 
-              <MediaMoreOptionsIcon allowDownload={this.props.allowDownload} />
+              {/*<MediaMoreOptionsIcon allowDownload={this.props.allowDownload} />*/}
             </div>
           </div>
         </div>

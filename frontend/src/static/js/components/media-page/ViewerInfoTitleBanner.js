@@ -159,7 +159,6 @@ export default class ViewerInfoTitleBanner extends React.PureComponent {
             <div>
               {MemberContext._currentValue.can.likeMedia ? <MediaLikeIcon /> : null}
               {MemberContext._currentValue.can.dislikeMedia ? <MediaDislikeIcon /> : null}
-              {MemberContext._currentValue.can.shareMedia ? <MediaShareButton isVideo={false} /> : null}
 
               {!MemberContext._currentValue.is.anonymous &&
                 MemberContext._currentValue.can.saveMedia &&
@@ -167,6 +166,7 @@ export default class ViewerInfoTitleBanner extends React.PureComponent {
                 <MediaSaveButton />
               ) : null}
 
+              {MemberContext._currentValue.can.shareMedia ? <MediaShareButton isVideo={false} /> : null}
               {!this.props.allowDownload || !MemberContext._currentValue.can.downloadMedia ? null : !this
                 .downloadLink ? (
                 <VideoMediaDownloadLink />
@@ -174,7 +174,7 @@ export default class ViewerInfoTitleBanner extends React.PureComponent {
                 <OtherMediaDownloadLink link={this.downloadLink} title={this.props.title} />
               )}
 
-              <MediaMoreOptionsIcon allowDownload={this.props.allowDownload} />
+              {/*<MediaMoreOptionsIcon allowDownload={this.props.allowDownload} />*/}
             </div>
           </div>
         </div>
