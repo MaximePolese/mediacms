@@ -28,7 +28,7 @@ function popupTopNavItems() {
                 items.push({
                     link: user.pages.media,
                     icon: 'video_library',
-                    text: 'My media',
+                    text: translate_string('My media'),
                 });
             }
         }
@@ -36,7 +36,7 @@ function popupTopNavItems() {
         items.push({
             link: links.signout,
             icon: 'exit_to_app',
-            text: 'Sign out',
+            text: translate_string('Sign out'),
         });
     }
 
@@ -51,7 +51,7 @@ function popupMiddleNavItems() {
             itemType: 'open-subpage',
             icon: 'brightness_4',
             iconPos: 'left',
-            text: 'Switch theme',
+            text: translate_string('Switch theme'),
             buttonAttr: {
                 className: 'change-page',
                 'data-page-id': 'switch-theme',
@@ -65,7 +65,7 @@ function popupMiddleNavItems() {
                 itemType: 'link',
                 icon: 'login',
                 iconPos: 'left',
-                text: 'Sign in',
+                text: translate_string('Sign in'),
                 link: links.signin,
                 linkAttr: {
                     className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
@@ -78,7 +78,7 @@ function popupMiddleNavItems() {
                 itemType: 'link',
                 icon: 'person_add',
                 iconPos: 'left',
-                text: 'Register',
+                text: translate_string('Register'),
                 link: links.register,
                 linkAttr: {
                     className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
@@ -89,14 +89,14 @@ function popupMiddleNavItems() {
         items.push({
             link: links.user.editProfile,
             icon: 'brush',
-            text: 'Edit profile',
+            text: translate_string('Edit profile'),
         });
 
         if (user.can.changePassword) {
             items.push({
                 link: links.changePassword,
                 icon: 'lock',
-                text: 'Change password',
+                text: translate_string('Change password'),
             });
         }
     }
@@ -111,7 +111,7 @@ function popupBottomNavItems() {
         items.push({
             link: links.admin,
             icon: 'admin_panel_settings',
-            text: 'MediaCMS administration',
+            text: 'Administration',
         });
     }
 

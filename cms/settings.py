@@ -9,7 +9,7 @@ DEBUG = False
 # is also shown on several places as emails
 PORTAL_NAME = "MediaCMS"
 PORTAL_DESCRIPTION = ""
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "fr"
 LANGUAGES = [
     ("en", _("English")),
     ('fr', _('French')),

@@ -74,11 +74,11 @@ def about(request):
     return render(request, "cms/about.html", context)
 
 
-def setlanguage(request):
-    """Set Language view"""
-
-    context = {}
-    return render(request, "cms/set_language.html", context)
+# def setlanguage(request):
+#     """Set Language view"""
+#
+#     context = {}
+#     return render(request, "cms/set_language.html", context)
 
 
 @login_required
