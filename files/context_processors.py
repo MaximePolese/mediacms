@@ -1,6 +1,7 @@
 from django.conf import settings
 
 from .methods import is_mediacms_editor, is_mediacms_manager
+from .frontend_translations import get_frontend_translations
 
 
 def stuff(request):
@@ -23,7 +24,8 @@ def stuff(request):
     ret["UPLOAD_MAX_SIZE"] = settings.UPLOAD_MAX_SIZE
     ret["UPLOAD_MAX_FILES_NUMBER"] = settings.UPLOAD_MAX_FILES_NUMBER
     ret["PRE_UPLOAD_MEDIA_MESSAGE"] = settings.PRE_UPLOAD_MEDIA_MESSAGE
-    ret["POST_UPLOAD_AUTHOR_MESSAGE_UNLISTED_NO_COMMENTARY"] = settings.POST_UPLOAD_AUTHOR_MESSAGE_UNLISTED_NO_COMMENTARY
+    ret[
+        "POST_UPLOAD_AUTHOR_MESSAGE_UNLISTED_NO_COMMENTARY"] = settings.POST_UPLOAD_AUTHOR_MESSAGE_UNLISTED_NO_COMMENTARY
     ret["IS_MEDIACMS_ADMIN"] = request.user.is_superuser
     ret["IS_MEDIACMS_EDITOR"] = is_mediacms_editor(request.user)
     ret["IS_MEDIACMS_MANAGER"] = is_mediacms_manager(request.user)
@@ -31,4 +33,5 @@ def stuff(request):
     ret["ALLOW_RATINGS_CONFIRMED_EMAIL_ONLY"] = settings.ALLOW_RATINGS_CONFIRMED_EMAIL_ONLY
     ret["VIDEO_PLAYER_FEATURED_VIDEO_ON_INDEX_PAGE"] = settings.VIDEO_PLAYER_FEATURED_VIDEO_ON_INDEX_PAGE
     ret["RSS_URL"] = "/rss"
+    ret["FRONTEND_TRANSLATIONS"] = get_frontend_translations(settings.LANGUAGE_CODE)
     return ret

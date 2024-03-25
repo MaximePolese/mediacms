@@ -74,6 +74,13 @@ def about(request):
     return render(request, "cms/about.html", context)
 
 
+def setlanguage(request):
+    """Set Language view"""
+
+    context = {}
+    return render(request, "cms/set_language.html", context)
+
+
 @login_required
 def add_subtitle(request):
     """Add subtitle view"""
@@ -382,7 +389,8 @@ class MediaList(APIView):
         manual_parameters=[
             openapi.Parameter(name='page', type=openapi.TYPE_INTEGER, in_=openapi.IN_QUERY, description='Page number'),
             openapi.Parameter(name='author', type=openapi.TYPE_STRING, in_=openapi.IN_QUERY, description='username'),
-            openapi.Parameter(name='show', type=openapi.TYPE_STRING, in_=openapi.IN_QUERY, description='show', enum=['recommended', 'featured', 'latest']),
+            openapi.Parameter(name='show', type=openapi.TYPE_STRING, in_=openapi.IN_QUERY, description='show',
+                              enum=['recommended', 'featured', 'latest']),
         ],
         tags=['Media'],
         operation_summary='List Media',
@@ -430,9 +438,12 @@ class MediaList(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(name="media_file", in_=openapi.IN_FORM, type=openapi.TYPE_FILE, required=True, description="media_file"),
-            openapi.Parameter(name="description", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False, description="description"),
-            openapi.Parameter(name="title", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False, description="title"),
+            openapi.Parameter(name="media_file", in_=openapi.IN_FORM, type=openapi.TYPE_FILE, required=True,
+                              description="media_file"),
+            openapi.Parameter(name="description", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False,
+                              description="description"),
+            openapi.Parameter(name="title", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False,
+                              description="title"),
         ],
         tags=['Media'],
         operation_summary='Add new Media',
@@ -459,13 +470,15 @@ class MediaDetail(APIView):
 
     def get_object(self, friendly_token, password=None):
         try:
-            media = Media.objects.select_related("user").prefetch_related("encodings__profile").get(friendly_token=friendly_token)
+            media = Media.objects.select_related("user").prefetch_related("encodings__profile").get(
+                friendly_token=friendly_token)
 
             # this need be explicitly called, and will call
             # has_object_permission() after has_permission has succeeded
             self.check_object_permissions(self.request, media)
 
-            if media.state == "private" and not (self.request.user == media.user or is_mediacms_editor(self.request.user)):
+            if media.state == "private" and not (
+                    self.request.user == media.user or is_mediacms_editor(self.request.user)):
                 if (not password) or (not media.password) or (password != media.password):
                     return Response(
                         {"detail": "media is private"},
@@ -482,7 +495,8 @@ class MediaDetail(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(name='friendly_token', type=openapi.TYPE_STRING, in_=openapi.IN_PATH, description='unique identifier', required=True),
+            openapi.Parameter(name='friendly_token', type=openapi.TYPE_STRING, in_=openapi.IN_PATH,
+                              description='unique identifier', required=True),
         ],
         tags=['Media'],
         operation_summary='Get information for Media',
@@ -516,8 +530,10 @@ class MediaDetail(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(name='friendly_token', type=openapi.TYPE_STRING, in_=openapi.IN_PATH, description='unique identifier', required=True),
-            openapi.Parameter(name='type', type=openapi.TYPE_STRING, in_=openapi.IN_FORM, description='action to perform', enum=['encode', 'review']),
+            openapi.Parameter(name='friendly_token', type=openapi.TYPE_STRING, in_=openapi.IN_PATH,
+                              description='unique identifier', required=True),
+            openapi.Parameter(name='type', type=openapi.TYPE_STRING, in_=openapi.IN_FORM,
+                              description='action to perform', enum=['encode', 'review']),
             openapi.Parameter(
                 name='encoding_profiles',
                 type=openapi.TYPE_ARRAY,
@@ -525,7 +541,8 @@ class MediaDetail(APIView):
                 in_=openapi.IN_FORM,
                 description='if action to perform is encode, need to specify list of ids of encoding profiles',
             ),
-            openapi.Parameter(name='result', type=openapi.TYPE_BOOLEAN, in_=openapi.IN_FORM, description='if action is review, this is the result (True for reviewed, False for not reviewed)'),
+            openapi.Parameter(name='result', type=openapi.TYPE_BOOLEAN, in_=openapi.IN_FORM,
+                              description='if action is review, this is the result (True for reviewed, False for not reviewed)'),
         ],
         tags=['Media'],
         operation_summary='Run action on Media',
@@ -584,9 +601,12 @@ class MediaDetail(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(name="description", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False, description="description"),
-            openapi.Parameter(name="title", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False, description="title"),
-            openapi.Parameter(name="media_file", in_=openapi.IN_FORM, type=openapi.TYPE_FILE, required=False, description="media_file"),
+            openapi.Parameter(name="description", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False,
+                              description="description"),
+            openapi.Parameter(name="title", in_=openapi.IN_FORM, type=openapi.TYPE_STRING, required=False,
+                              description="title"),
+            openapi.Parameter(name="media_file", in_=openapi.IN_FORM, type=openapi.TYPE_FILE, required=False,
+                              description="media_file"),
         ],
         tags=['Media'],
         operation_summary='Update Media',
@@ -611,7 +631,8 @@ class MediaDetail(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(name='friendly_token', type=openapi.TYPE_STRING, in_=openapi.IN_PATH, description='unique identifier', required=True),
+            openapi.Parameter(name='friendly_token', type=openapi.TYPE_STRING, in_=openapi.IN_PATH,
+                              description='unique identifier', required=True),
         ],
         tags=['Media'],
         operation_summary='Delete Media',
@@ -639,7 +660,8 @@ class MediaActions(APIView):
 
     def get_object(self, friendly_token):
         try:
-            media = Media.objects.select_related("user").prefetch_related("encodings__profile").get(friendly_token=friendly_token)
+            media = Media.objects.select_related("user").prefetch_related("encodings__profile").get(
+                friendly_token=friendly_token)
             if media.state == "private" and self.request.user != media.user:
                 return Response({"detail": "media is private"}, status=status.HTTP_400_BAD_REQUEST)
             return media
@@ -1048,14 +1070,14 @@ class EncodingDetail(APIView):
                 return Response({"status": "fail"}, status=status.HTTP_400_BAD_REQUEST)
             # TODO: break chunk True/False logic here
             if (
-                Encoding.objects.filter(
-                    media=media,
-                    profile=profile,
-                    chunk=chunk,
-                    chunk_file_path=chunk_file_path,
-                ).count()
-                > 1  # noqa
-                and force is False  # noqa
+                    Encoding.objects.filter(
+                        media=media,
+                        profile=profile,
+                        chunk=chunk,
+                        chunk_file_path=chunk_file_path,
+                    ).count()
+                    > 1  # noqa
+                    and force is False  # noqa
             ):
                 Encoding.objects.filter(id=encoding_id).delete()
                 return Response({"status": "fail"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1258,7 +1280,8 @@ class CommentDetail(APIView):
                     {"detail": "comment does not exist"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            if (comment.user == self.request.user) or comment.media.user == self.request.user or is_mediacms_editor(self.request.user):
+            if (comment.user == self.request.user) or comment.media.user == self.request.user or is_mediacms_editor(
+                    self.request.user):
                 comment.delete()
             else:
                 return Response({"detail": "bad permissions"}, status=status.HTTP_400_BAD_REQUEST)
@@ -1299,7 +1322,8 @@ class UserActions(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(name='action', type=openapi.TYPE_STRING, in_=openapi.IN_PATH, description='action', required=True, enum=VALID_USER_ACTIONS),
+            openapi.Parameter(name='action', type=openapi.TYPE_STRING, in_=openapi.IN_PATH, description='action',
+                              required=True, enum=VALID_USER_ACTIONS),
         ],
         tags=['Users'],
         operation_summary='List user actions',
@@ -1309,7 +1333,9 @@ class UserActions(APIView):
         media = []
         if action in VALID_USER_ACTIONS:
             if request.user.is_authenticated:
-                media = Media.objects.select_related("user").filter(mediaactions__user=request.user, mediaactions__action=action).order_by("-mediaactions__action_date")
+                media = Media.objects.select_related("user").filter(mediaactions__user=request.user,
+                                                                    mediaactions__action=action).order_by(
+                    "-mediaactions__action_date")
             elif request.session.session_key:
                 media = (
                     Media.objects.select_related("user")

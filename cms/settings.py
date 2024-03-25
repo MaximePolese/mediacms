@@ -1,6 +1,7 @@
 import os
 
 from celery.schedules import crontab
+from django.utils.translation import gettext_lazy as _
 
 DEBUG = False
 
@@ -9,6 +10,10 @@ DEBUG = False
 PORTAL_NAME = "MediaCMS"
 PORTAL_DESCRIPTION = ""
 LANGUAGE_CODE = "en-us"
+LANGUAGES = [
+    ("en", _("English")),
+    ('fr', _('French')),
+]
 TIME_ZONE = "Europe/Paris"
 
 # who can add media
@@ -302,6 +307,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

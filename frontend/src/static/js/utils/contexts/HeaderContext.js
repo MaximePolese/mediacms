@@ -1,5 +1,6 @@
-import React, { createContext } from 'react';
-import { config as mediacmsConfig } from '../settings/config.js';
+import React, {createContext} from 'react';
+import {config as mediacmsConfig} from '../settings/config.js';
+import {translate_string} from '../helpers/translate.js';
 
 const config = mediacmsConfig(window.MediaCMS);
 
@@ -10,120 +11,120 @@ const user = config.member;
 const hasThemeSwitcher = theme.switch.enabled && 'header' === theme.switch.position;
 
 function popupTopNavItems() {
-  const items = [];
+    const items = [];
 
-  if (!user.is.anonymous) {
-    if (user.can.addMedia) {
-      items.push({
-        link: links.user.addMedia,
-        icon: 'video_call',
-        text: 'Upload media',
-        itemAttr: {
-          className: 'visible-only-in-small',
-        },
-      });
+    if (!user.is.anonymous) {
+        if (user.can.addMedia) {
+            items.push({
+                link: links.user.addMedia,
+                icon: 'video_call',
+                text: translate_string('Upload media'),
+                itemAttr: {
+                    className: 'visible-only-in-small',
+                },
+            });
 
-      if (user.pages.media) {
+            if (user.pages.media) {
+                items.push({
+                    link: user.pages.media,
+                    icon: 'video_library',
+                    text: 'My media',
+                });
+            }
+        }
+
         items.push({
-          link: user.pages.media,
-          icon: 'video_library',
-          text: 'My media',
+            link: links.signout,
+            icon: 'exit_to_app',
+            text: 'Sign out',
         });
-      }
     }
 
-    items.push({
-      link: links.signout,
-      icon: 'exit_to_app',
-      text: 'Sign out',
-    });
-  }
-
-  return items;
+    return items;
 }
 
 function popupMiddleNavItems() {
-  const items = [];
+    const items = [];
 
-  if (hasThemeSwitcher) {
-    items.push({
-      itemType: 'open-subpage',
-      icon: 'brightness_4',
-      iconPos: 'left',
-      text: 'Switch theme',
-      buttonAttr: {
-        className: 'change-page',
-        'data-page-id': 'switch-theme',
-      },
-    });
-  }
-
-  if (user.is.anonymous) {
-    if (user.can.login) {
-      items.push({
-        itemType: 'link',
-        icon: 'login',
-        iconPos: 'left',
-        text: 'Sign in',
-        link: links.signin,
-        linkAttr: {
-          className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
-        },
-      });
+    if (hasThemeSwitcher) {
+        items.push({
+            itemType: 'open-subpage',
+            icon: 'brightness_4',
+            iconPos: 'left',
+            text: 'Switch theme',
+            buttonAttr: {
+                className: 'change-page',
+                'data-page-id': 'switch-theme',
+            },
+        });
     }
 
-    if (user.can.register) {
-      items.push({
-        itemType: 'link',
-        icon: 'person_add',
-        iconPos: 'left',
-        text: 'Register',
-        link: links.register,
-        linkAttr: {
-          className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
-        },
-      });
-    }
-  } else {
-    items.push({
-      link: links.user.editProfile,
-      icon: 'brush',
-      text: 'Edit profile',
-    });
+    if (user.is.anonymous) {
+        if (user.can.login) {
+            items.push({
+                itemType: 'link',
+                icon: 'login',
+                iconPos: 'left',
+                text: 'Sign in',
+                link: links.signin,
+                linkAttr: {
+                    className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
+                },
+            });
+        }
 
-    if (user.can.changePassword) {
-      items.push({
-        link: links.changePassword,
-        icon: 'lock',
-        text: 'Change password',
-      });
-    }
-  }
+        if (user.can.register) {
+            items.push({
+                itemType: 'link',
+                icon: 'person_add',
+                iconPos: 'left',
+                text: 'Register',
+                link: links.register,
+                linkAttr: {
+                    className: hasThemeSwitcher ? 'visible-only-in-small' : 'visible-only-in-extra-small',
+                },
+            });
+        }
+    } else {
+        items.push({
+            link: links.user.editProfile,
+            icon: 'brush',
+            text: 'Edit profile',
+        });
 
-  return items;
+        if (user.can.changePassword) {
+            items.push({
+                link: links.changePassword,
+                icon: 'lock',
+                text: 'Change password',
+            });
+        }
+    }
+
+    return items;
 }
 
 function popupBottomNavItems() {
-  const items = [];
+    const items = [];
 
-  if (user.is.admin) {
-    items.push({
-      link: links.admin,
-      icon: 'admin_panel_settings',
-      text: 'MediaCMS administration',
-    });
-  }
+    if (user.is.admin) {
+        items.push({
+            link: links.admin,
+            icon: 'admin_panel_settings',
+            text: 'MediaCMS administration',
+        });
+    }
 
-  return items;
+    return items;
 }
 
 export const HeaderContext = createContext({
-  hasThemeSwitcher,
-  popupNavItems: {
-    top: popupTopNavItems(),
-    middle: popupMiddleNavItems(),
-    bottom: popupBottomNavItems(),
-  },
+    hasThemeSwitcher,
+    popupNavItems: {
+        top: popupTopNavItems(),
+        middle: popupMiddleNavItems(),
+        bottom: popupBottomNavItems(),
+    },
 });
 
 export const HeaderConsumer = HeaderContext.Consumer;
