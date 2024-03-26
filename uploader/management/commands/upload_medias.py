@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
 
 def download_csv():
-    file_path = '/home/mediacms.io/mediacms/file1.csv'
+    file_path = '/home/mediacms.io/mediacms/videos/file1.csv'
     data = []
     with open(file_path, 'r', encoding='utf-8') as file:
         csvreader = csv.reader(file, delimiter=';')
@@ -78,7 +78,7 @@ def upload_media(data):
         print(destination_file_path)
         shutil.copy2(source_file_path, destination_file_path)
 
-        user = User.objects.get(username='admin')
+        user = User.objects.get(username='cha')
         with open(destination_file_path, "rb") as f:
             new_media = Media.objects.create(title=title, media_file=File(f), user=user)
             new_media.category.add(new_category)
