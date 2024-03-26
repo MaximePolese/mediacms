@@ -16,7 +16,7 @@ module.exports = {
     addMedia: true,
     editMedia: true,
     deleteMedia: true,
-    editSubtitle: true,
+    editSubtitle: false,
     readComment: false,
     addComment: false,
     deleteComment: false,

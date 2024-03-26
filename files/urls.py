@@ -7,10 +7,8 @@ from . import management_views, views
 from .feeds import IndexRSSFeed, SearchRSSFeed
 
 urlpatterns = [
-                  path("i18n/", include("django.conf.urls.i18n")),
                   re_path(r"^$", views.index),
                   # re_path(r"^about", views.about, name="about"),
-                  # re_path(r"^setlanguage", views.setlanguage, name="setlanguage"),
                   # re_path(r"^add_subtitle", views.add_subtitle, name="add_subtitle"),
                   re_path(r"^categories$", views.categories, name="categories"),
                   # re_path(r"^contact$", views.contact, name="contact"),
@@ -38,7 +36,7 @@ urlpatterns = [
                   re_path("^rss/search", SearchRSSFeed()),
                   re_path(r"^search", views.search, name="search"),
                   re_path(r"^scpublisher", views.upload_media, name="upload_media"),
-                  # re_path(r"^tags", views.tags, name="tags"),
+                  re_path(r"^tags", views.tags, name="tags"),
                   # re_path(r"^tos$", views.tos, name="terms_of_service"),
                   re_path(r"^view", views.view_media, name="get_media"),
                   re_path(r"^upload", views.upload_media, name="upload_media"),

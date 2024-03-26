@@ -43,9 +43,9 @@ module.exports = {
     // },
   },
   taxonomies: {
-    // tags: {
-    //   title: 'Tags',
-    // },
+    tags: {
+      title: 'Tags',
+    },
     categories: {
       title: 'Categories',
     },

@@ -6,12 +6,12 @@ module.exports = {
     },
   },
   headerBar: {
-    hideLogin: false,
+    hideLogin: true,
     hideRegister: true,
   },
   sideBar: {
     hideHomeLink: false,
-    hideTagsLink: true,
+    hideTagsLink: false,
     hideCategoriesLink: false,
   },
   media: {
