@@ -1,231 +1,248 @@
-import React, { useState, useEffect } from 'react';
-import { SiteContext } from '../../utils/contexts/';
-import { useUser, usePopup } from '../../utils/hooks/';
-import { PageStore, MediaPageStore } from '../../utils/stores/';
-import { PageActions, MediaPageActions } from '../../utils/actions/';
-import { formatInnerLink, publishedOnDate } from '../../utils/helpers/';
-import { PopupMain } from '../_shared/';
+import React, {useState, useEffect} from 'react';
+import {SiteContext} from '../../utils/contexts/';
+import {useUser, usePopup} from '../../utils/hooks/';
+import {PageStore, MediaPageStore} from '../../utils/stores/';
+import {PageActions, MediaPageActions} from '../../utils/actions/';
+import {formatInnerLink, publishedOnDate, translate_string} from '../../utils/helpers/';
+import {PopupMain} from '../_shared/';
 import CommentsList from '../comments/Comments';
 
 function metafield(arr) {
-  let i;
-  let sep;
-  let ret = [];
+    let i;
+    let sep;
+    let ret = [];
 
-  if (arr.length) {
-    i = 0;
-    sep = 1 < arr.length ? ', ' : '';
-    while (i < arr.length) {
-      ret[i] = (
-        <div key={i}>
-          <a href={arr[i].url} title={arr[i].title}>
-            {arr[i].title}
-          </a>
-          {i < arr.length - 1 ? sep : ''}
-        </div>
-      );
-      i += 1;
+    if (arr.length) {
+        i = 0;
+        sep = 1 < arr.length ? ', ' : '';
+        while (i < arr.length) {
+            ret[i] = (
+                <div key={i}>
+                    <a href={arr[i].url} title={arr[i].title}>
+                        {arr[i].title}
+                    </a>
+                    {i < arr.length - 1 ? sep : ''}
+                </div>
+            );
+            i += 1;
+        }
     }
-  }
 
-  return ret;
+    return ret;
 }
 
 function MediaAuthorBanner(props) {
-  return (
-    <div className="media-author-banner">
-      <div>
-        <a className="author-banner-thumb" href={props.link || null} title={props.name}>
-          <span style={{ backgroundImage: 'url(' + props.thumb + ')' }}>
-            <img src={props.thumb} loading="lazy" alt={props.name} title={props.name} />
+    return (
+        <div className="media-author-banner">
+            <div>
+                <a className="author-banner-thumb" href={props.link || null} title={props.name}>
+          <span style={{backgroundImage: 'url(' + props.thumb + ')'}}>
+            <img src={props.thumb} loading="lazy" alt={props.name} title={props.name}/>
           </span>
-        </a>
-      </div>
-      <div>
+                </a>
+            </div>
+            <div>
         <span>
           <a href={props.link} className="author-banner-name" title={props.name}>
             <span>{props.name}</span>
           </a>
         </span>
-        {PageStore.get('config-media-item').displayPublishDate && props.published ? (
-          <span className="author-banner-date">Published on {publishedOnDate(new Date(props.published))}</span>
-        ) : null}
-      </div>
-    </div>
-  );
+                {PageStore.get('config-media-item').displayPublishDate && props.published ? (
+                    <span
+                        className="author-banner-date">Published on {publishedOnDate(new Date(props.published))}</span>
+                ) : null}
+            </div>
+        </div>
+    );
+}
+
+function PublishedDateOnly(props) {
+    return (
+        <div className="media-author-banner">
+            {PageStore.get('config-media-item').displayPublishDate && props.published ? (
+                <span
+                    className="author-banner-date">{translate_string('Published on')} {publishedOnDate(new Date(props.published), 3)}</span>
+            ) : null}
+        </div>
+    );
 }
 
 function MediaMetaField(props) {
-  return (
-    <div className={props.id.trim() ? 'media-content-' + props.id.trim() : null}>
-      <div className="media-content-field">
-        <div className="media-content-field-label">
-          <h4>{props.title}</h4>
+    return (
+        <div className={props.id.trim() ? 'media-content-' + props.id.trim() : null}>
+            <div className="media-content-field">
+                <div className="media-content-field-label">
+                    <h4>{props.title}</h4>
+                </div>
+                <div className="media-content-field-content">{props.value}</div>
+            </div>
         </div>
-        <div className="media-content-field-content">{props.value}</div>
-      </div>
-    </div>
-  );
+    );
 }
 
 function EditMediaButton(props) {
-  let link = props.link;
+    let link = props.link;
 
-  if (window.MediaCMS.site.devEnv) {
-    link = '/edit-media.html';
-  }
+    if (window.MediaCMS.site.devEnv) {
+        link = '/edit-media.html';
+    }
 
-  return (
-    <a href={link} rel="nofollow" title="Edit media" className="edit-media">
-      EDIT MEDIA
-    </a>
-  );
+    return (
+        <a href={link} rel="nofollow" title="Edit media" className="edit-media">
+            {translate_string('EDIT MEDIA')}
+        </a>
+    );
 }
 
 function EditSubtitleButton(props) {
-  let link = props.link;
+    let link = props.link;
 
-  if (window.MediaCMS.site.devEnv) {
-    link = '#';
-  }
+    if (window.MediaCMS.site.devEnv) {
+        link = '#';
+    }
 
-  return (
-    <a href={link} rel="nofollow" title="Edit subtitle" className="edit-subtitle">
-      EDIT SUBTITLE
-    </a>
-  );
+    return (
+        <a href={link} rel="nofollow" title="Edit subtitle" className="edit-subtitle">
+            EDIT SUBTITLE
+        </a>
+    );
 }
 
 export default function ViewerInfoContent(props) {
-  const { userCan } = useUser();
+    const {userCan} = useUser();
 
-  const description = props.description.trim();
-  const tagsContent =
-    !PageStore.get('config-enabled').taxonomies.tags || PageStore.get('config-enabled').taxonomies.tags.enabled
-      ? metafield(MediaPageStore.get('media-tags'))
-      : [];
-  const categoriesContent = PageStore.get('config-options').pages.media.categoriesWithTitle
-    ? []
-    : !PageStore.get('config-enabled').taxonomies.categories ||
-      PageStore.get('config-enabled').taxonomies.categories.enabled
-    ? metafield(MediaPageStore.get('media-categories'))
-    : [];
+    const description = props.description.trim();
+    const tagsContent =
+        !PageStore.get('config-enabled').taxonomies.tags || PageStore.get('config-enabled').taxonomies.tags.enabled
+            ? metafield(MediaPageStore.get('media-tags'))
+            : [];
+    const categoriesContent = PageStore.get('config-options').pages.media.categoriesWithTitle
+        ? []
+        : !PageStore.get('config-enabled').taxonomies.categories ||
+        PageStore.get('config-enabled').taxonomies.categories.enabled
+            ? metafield(MediaPageStore.get('media-categories'))
+            : [];
 
-  let summary = MediaPageStore.get('media-summary');
+    let summary = MediaPageStore.get('media-summary');
 
-  summary = summary ? summary.trim() : '';
+    summary = summary ? summary.trim() : '';
 
-  const [popupContentRef, PopupContent, PopupTrigger] = usePopup();
+    const [popupContentRef, PopupContent, PopupTrigger] = usePopup();
 
-  const [hasSummary, setHasSummary] = useState('' !== summary);
-  const [isContentVisible, setIsContentVisible] = useState('' == summary);
+    const [hasSummary, setHasSummary] = useState('' !== summary);
+    const [isContentVisible, setIsContentVisible] = useState('' == summary);
 
-  function proceedMediaRemoval() {
-    MediaPageActions.removeMedia();
-    popupContentRef.current.toggle();
-  }
-
-  function cancelMediaRemoval() {
-    popupContentRef.current.toggle();
-  }
-
-  function onMediaDelete(mediaId) {
-    // FIXME: Without delay creates conflict [ Uncaught Error: Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch. ].
-    setTimeout(function () {
-      PageActions.addNotification('Media removed. Redirecting...', 'mediaDelete');
-      setTimeout(function () {
-        window.location.href =
-          SiteContext._currentValue.url + '/' + MediaPageStore.get('media-data').author_profile.replace(/^\//g, '');
-      }, 2000);
-    }, 100);
-
-    if (void 0 !== mediaId) {
-      console.info("Removed media '" + mediaId + '"');
+    function proceedMediaRemoval() {
+        MediaPageActions.removeMedia();
+        popupContentRef.current.toggle();
     }
-  }
 
-  function onMediaDeleteFail(mediaId) {
-    // FIXME: Without delay creates conflict [ Uncaught Error: Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch. ].
-    setTimeout(function () {
-      PageActions.addNotification('Media removal failed', 'mediaDeleteFail');
-    }, 100);
-
-    if (void 0 !== mediaId) {
-      console.info('Media "' + mediaId + '"' + ' removal failed');
+    function cancelMediaRemoval() {
+        popupContentRef.current.toggle();
     }
-  }
 
-  function onClickLoadMore() {
-    setIsContentVisible(!isContentVisible);
-  }
+    function onMediaDelete(mediaId) {
+        // FIXME: Without delay creates conflict [ Uncaught Error: Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch. ].
+        setTimeout(function () {
+            PageActions.addNotification('Media removed. Redirecting...', 'mediaDelete');
+            setTimeout(function () {
+                window.location.href =
+                    SiteContext._currentValue.url + '/' + MediaPageStore.get('media-data').author_profile.replace(/^\//g, '');
+            }, 2000);
+        }, 100);
 
-  useEffect(() => {
-    MediaPageStore.on('media_delete', onMediaDelete);
-    MediaPageStore.on('media_delete_fail', onMediaDeleteFail);
-    return () => {
-      MediaPageStore.removeListener('media_delete', onMediaDelete);
-      MediaPageStore.removeListener('media_delete_fail', onMediaDeleteFail);
-    };
-  }, []);
+        if (void 0 !== mediaId) {
+            console.info("Removed media '" + mediaId + '"');
+        }
+    }
 
-  const authorLink = formatInnerLink(props.author.url, SiteContext._currentValue.url);
-  const authorThumb = formatInnerLink(props.author.thumb, SiteContext._currentValue.url);
+    function onMediaDeleteFail(mediaId) {
+        // FIXME: Without delay creates conflict [ Uncaught Error: Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch. ].
+        setTimeout(function () {
+            PageActions.addNotification('Media removal failed', 'mediaDeleteFail');
+        }, 100);
 
-  return (
-    <div className="media-info-content">
-      {void 0 === PageStore.get('config-media-item').displayAuthor ||
-      null === PageStore.get('config-media-item').displayAuthor ||
-      !!PageStore.get('config-media-item').displayAuthor ? (
-        <MediaAuthorBanner link={authorLink} thumb={authorThumb} name={props.author.name} published={props.published} />
-      ) : null}
+        if (void 0 !== mediaId) {
+            console.info('Media "' + mediaId + '"' + ' removal failed');
+        }
+    }
 
-      <div className="media-content-banner">
-        <div className="media-content-banner-inner">
-          {hasSummary ? <div className="media-content-summary">{summary}</div> : null}
-          {(!hasSummary || isContentVisible) && description ? (
-            PageStore.get('config-options').pages.media.htmlInDescription ? (
-              <div className="media-content-description" dangerouslySetInnerHTML={{ __html: description }}></div>
-            ) : (
-              <div className="media-content-description">{description}</div>
-            )
-          ) : null}
-          {hasSummary ? (
-            <button className="load-more" onClick={onClickLoadMore}>
-              {isContentVisible ? 'SHOW LESS' : 'SHOW MORE'}
-            </button>
-          ) : null}
-          {tagsContent.length ? (
-            <MediaMetaField value={tagsContent} title={1 < tagsContent.length ? 'Tags' : 'Tag'} id="tags" />
-          ) : null}
-          {categoriesContent.length ? (
-            <MediaMetaField
-              value={categoriesContent}
-              title={1 < categoriesContent.length ? 'Categories' : 'Category'}
-              id="categories"
-            />
-          ) : null}
+    function onClickLoadMore() {
+        setIsContentVisible(!isContentVisible);
+    }
 
-          {userCan.editMedia || userCan.editSubtitle || userCan.deleteMedia ? (
-            <div className="media-author-actions">
-              {userCan.editMedia ? <EditMediaButton link={MediaPageStore.get('media-data').edit_url} /> : null}
-              {/*{userCan.editSubtitle && 'video' === MediaPageStore.get('media-data').media_type ? (*/}
-              {/*  <EditSubtitleButton*/}
-              {/*    link={MediaPageStore.get('media-data').edit_url.replace('edit?', 'add_subtitle?')}*/}
-              {/*  />*/}
-              {/*) : null}*/}
+    useEffect(() => {
+        MediaPageStore.on('media_delete', onMediaDelete);
+        MediaPageStore.on('media_delete_fail', onMediaDeleteFail);
+        return () => {
+            MediaPageStore.removeListener('media_delete', onMediaDelete);
+            MediaPageStore.removeListener('media_delete_fail', onMediaDeleteFail);
+        };
+    }, []);
 
-              <PopupTrigger contentRef={popupContentRef}>
-                <button className="remove-media">DELETE MEDIA</button>
-              </PopupTrigger>
+    const authorLink = formatInnerLink(props.author.url, SiteContext._currentValue.url);
+    const authorThumb = formatInnerLink(props.author.thumb, SiteContext._currentValue.url);
 
-              <PopupContent contentRef={popupContentRef}>
-                <PopupMain>
-                  <div className="popup-message">
-                    <span className="popup-message-title">Media removal</span>
-                    <span className="popup-message-main">You're willing to remove media permanently?</span>
-                  </div>
-                  <hr />
-                  <span className="popup-message-bottom">
+    return (
+        <div className="media-info-content">
+            {void 0 === PageStore.get('config-media-item').displayAuthor ||
+            null === PageStore.get('config-media-item').displayAuthor ||
+            !!PageStore.get('config-media-item').displayAuthor ? (
+                <MediaAuthorBanner link={authorLink} thumb={authorThumb} name={props.author.name}
+                                   published={props.published}/>
+
+            ) : null}
+            <PublishedDateOnly published={props.published}/>
+            <div className="media-content-banner">
+                <div className="media-content-banner-inner">
+                    {hasSummary ? <div className="media-content-summary">{summary}</div> : null}
+                    {(!hasSummary || isContentVisible) && description ? (
+                        PageStore.get('config-options').pages.media.htmlInDescription ? (
+                            <div className="media-content-description"
+                                 dangerouslySetInnerHTML={{__html: description}}></div>
+                        ) : (
+                            <div className="media-content-description">{description}</div>
+                        )
+                    ) : null}
+                    {hasSummary ? (
+                        <button className="load-more" onClick={onClickLoadMore}>
+                            {isContentVisible ? 'SHOW LESS' : 'SHOW MORE'}
+                        </button>
+                    ) : null}
+                    {tagsContent.length ? (
+                        <MediaMetaField value={tagsContent} title={1 < tagsContent.length ? 'Tags' : 'Tag'} id="tags"/>
+                    ) : null}
+                    {categoriesContent.length ? (
+                        <MediaMetaField
+                            value={categoriesContent}
+                            title={translate_string(1 < categoriesContent.length ? 'Categories' : 'Category')}
+                            id="categories"
+                        />
+                    ) : null}
+
+                    {userCan.editMedia || userCan.editSubtitle || userCan.deleteMedia ? (
+                        <div className="media-author-actions">
+                            {userCan.editMedia ?
+                                <EditMediaButton link={MediaPageStore.get('media-data').edit_url}/> : null}
+                            {/*{userCan.editSubtitle && 'video' === MediaPageStore.get('media-data').media_type ? (*/}
+                            {/*  <EditSubtitleButton*/}
+                            {/*    link={MediaPageStore.get('media-data').edit_url.replace('edit?', 'add_subtitle?')}*/}
+                            {/*  />*/}
+                            {/*) : null}*/}
+
+                            <PopupTrigger contentRef={popupContentRef}>
+                                <button className="remove-media">{translate_string('DELETE MEDIA')}</button>
+                            </PopupTrigger>
+
+                            <PopupContent contentRef={popupContentRef}>
+                                <PopupMain>
+                                    <div className="popup-message">
+                                        <span className="popup-message-title">Media removal</span>
+                                        <span
+                                            className="popup-message-main">You're willing to remove media permanently?</span>
+                                    </div>
+                                    <hr/>
+                                    <span className="popup-message-bottom">
                     <button className="button-link cancel-comment-removal" onClick={cancelMediaRemoval}>
                       CANCEL
                     </button>
@@ -233,14 +250,14 @@ export default function ViewerInfoContent(props) {
                       PROCEED
                     </button>
                   </span>
-                </PopupMain>
-              </PopupContent>
+                                </PopupMain>
+                            </PopupContent>
+                        </div>
+                    ) : null}
+                </div>
             </div>
-          ) : null}
-        </div>
-      </div>
 
-      {/*<CommentsList />*/}
-    </div>
-  );
+            {/*<CommentsList />*/}
+        </div>
+    );
 }

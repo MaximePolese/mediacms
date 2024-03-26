@@ -3,7 +3,7 @@ let MEDIA = null;
 export function init(item, shareOptions) {
   MEDIA = {
     item: {
-      displayAuthor: false,
+      displayAuthor: true,
       displayViews: true,
       displayPublishDate: true,
     },

@@ -1,4 +1,5 @@
 import { months } from '../constants';
+import {translate_string} from "./translate";
 
 export default function publishedOnDate(date, type) {
   if (date instanceof Date) {
@@ -10,7 +11,7 @@ export default function publishedOnDate(date, type) {
       case 2:
         return date.getDate() + ' ' + months[date.getMonth()].substring(0, 3) + ' ' + date.getFullYear();
       case 3:
-        return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+        return date.getDate() + ' ' + translate_string(months[date.getMonth()]) + ' ' + date.getFullYear();
     }
   }
   return null;

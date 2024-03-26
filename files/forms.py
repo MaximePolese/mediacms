@@ -9,14 +9,14 @@ class MultipleSelect(forms.CheckboxSelectMultiple):
 
 
 class MediaForm(forms.ModelForm):
-    # new_tags = forms.CharField(label="Tags", help_text="a comma separated list of new tags.", required=False)
+    new_tags = forms.CharField(label="Tags", help_text="a comma separated list of new tags.", required=False)
 
     class Meta:
         model = Media
         fields = (
             "title",
             "category",
-            # "new_tags",
+            "new_tags",
             "add_date",
             # "uploaded_poster",
             "description",
@@ -28,9 +28,9 @@ class MediaForm(forms.ModelForm):
             # "is_reviewed",
             "allow_download",
         )
-        # widgets = {
-        #     "tags": MultipleSelect(),
-        # }
+        widgets = {
+            "tags": MultipleSelect(),
+        }
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -41,7 +41,7 @@ class MediaForm(forms.ModelForm):
             self.fields.pop("featured")
             self.fields.pop("reported_times")
             # self.fields.pop("is_reviewed")
-        # self.fields["new_tags"].initial = ", ".join([tag.title for tag in self.instance.tags.all()])
+        self.fields["new_tags"].initial = ", ".join([tag.title for tag in self.instance.tags.all()])
 
     def clean_uploaded_poster(self):
         image = self.cleaned_data.get("uploaded_poster", False)

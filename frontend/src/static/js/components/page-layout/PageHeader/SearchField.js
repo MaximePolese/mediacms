@@ -6,6 +6,7 @@ import { SearchFieldActions } from '../../../utils/actions/';
 import { MaterialIcon, PopupMain } from '../../_shared';
 
 import './SearchField.scss';
+import {translate_string} from "../../../utils/helpers/translate.js";
 
 function indexesOf(source, find, caseSensitive) {
   let i,
@@ -296,7 +297,7 @@ export function SearchField(props) {
               <input
                 ref={searchInputRef}
                 type="text"
-                placeholder="Search"
+                placeholder={translate_string('Search')}
                 aria-label="Search"
                 name="q"
                 value={queryVal}

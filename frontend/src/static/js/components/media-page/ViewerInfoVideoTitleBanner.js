@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatViewsNumber } from '../../utils/helpers/';
+import {formatViewsNumber, translate_string} from '../../utils/helpers/';
 import { PageStore, MediaPageStore } from '../../utils/stores/';
 import { MemberContext, PlaylistsContext } from '../../utils/contexts/';
 import { MediaLikeIcon, MediaDislikeIcon, OtherMediaDownloadLink, VideoMediaDownloadLink, MediaSaveButton, MediaShareButton, MediaMoreOptionsIcon } from '../media-actions/';
@@ -56,7 +56,7 @@ export default class ViewerInfoVideoTitleBanner extends ViewerInfoTitleBanner {
 
           {displayViews ? (
             <div className="media-views">
-              {formatViewsNumber(this.props.views, true)} {1 >= this.props.views ? 'view' : 'views'}
+              {formatViewsNumber(this.props.views, true)} {translate_string(1 >= this.props.views ? 'view' : 'views')}
             </div>
           ) : null}
 

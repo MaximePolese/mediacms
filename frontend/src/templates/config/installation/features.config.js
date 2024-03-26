@@ -22,7 +22,7 @@ module.exports = {
       dislike: false,
       download: true,
       comment: false,
-      save: false,
+      save: true,
     },
     shareOptions: [
       'embed',
