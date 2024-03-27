@@ -6,6 +6,7 @@ import { PageStore, ProfilePageStore } from '../../utils/stores/';
 import { PageActions, ProfilePageActions } from '../../utils/actions/';
 import { CircleIconButton, PopupMain } from '../_shared';
 import ItemsInlineSlider from '../item-list/includes/itemLists/ItemsInlineSlider';
+import {translate_string} from "../../utils/helpers";
 
 class ProfileSearchBar extends React.PureComponent {
   constructor(props) {
@@ -375,7 +376,7 @@ function AddBannerButton(props) {
   }
   return (
     <a href={link} className="edit-channel" title="Add banner">
-      ADD BANNER
+      {translate_string('ADD BANNER')}
     </a>
   );
 }
@@ -388,7 +389,7 @@ function EditBannerButton(props) {
   }
   return (
     <a href={link} className="edit-channel" title="Edit banner">
-      EDIT BANNER
+      {translate_string('EDIT BANNER')}
     </a>
   );
 }
@@ -402,7 +403,7 @@ function EditProfileButton(props) {
 
   return (
     <a href={link} className="edit-profile" title="Edit profile">
-      EDIT PROFILE
+      {translate_string('EDIT PROFILE')}
     </a>
   );
 }

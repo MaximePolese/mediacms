@@ -77,19 +77,6 @@ export function SidebarNavigationMenu() {
         }
 
         if (
-            !sidebar.hideTagsLink &&
-            PageStore.get('config-enabled').taxonomies.tags &&
-            PageStore.get('config-enabled').taxonomies.tags.enabled
-        ) {
-            items.push({
-                link: links.archive.tags,
-                icon: 'local_offer',
-                text: translate_string(PageStore.get('config-enabled').taxonomies.tags.title),
-                className: 'nav-item-tags',
-            });
-        }
-
-        if (
             !sidebar.hideCategoriesLink &&
             PageStore.get('config-enabled').taxonomies.categories &&
             PageStore.get('config-enabled').taxonomies.categories.enabled
@@ -99,6 +86,19 @@ export function SidebarNavigationMenu() {
                 icon: 'list_alt',
                 text: translate_string(PageStore.get('config-enabled').taxonomies.categories.title),
                 className: 'nav-item-categories',
+            });
+        }
+
+        if (
+            !sidebar.hideTagsLink &&
+            PageStore.get('config-enabled').taxonomies.tags &&
+            PageStore.get('config-enabled').taxonomies.tags.enabled
+        ) {
+            items.push({
+                link: links.archive.tags,
+                icon: 'local_offer',
+                text: translate_string(PageStore.get('config-enabled').taxonomies.tags.title),
+                className: 'nav-item-tags',
             });
         }
 

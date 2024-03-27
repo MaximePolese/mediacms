@@ -2,8 +2,8 @@
 
 translations = {
     "Home": "Accueil",
+    'Latest': 'Dernières publications',
     "Featured": "En vedette",
-    "Latest": "Dernier",
     "Recommended": "Recommandé",
     "Recent uploads": "Téléchargements récents",
     "Tags": "Tags",
@@ -12,6 +12,7 @@ translations = {
     "Members": "Membres",
     "Upload": "Télécharger",
     "Upload media": "Télécharger un média",
+    'Upload media files': 'Télécharger des fichiers multimédias',
     "My media": "Mes médias",
     "My playlists": "Mes listes de lecture",
     "History": "Historique",
@@ -27,6 +28,8 @@ translations = {
     "VIEW ALL": "VOIR TOUT",
     "view": "vue",
     "views": "vues",
+    'media': 'média',
+    'medias': 'médias',
     "Search": "Recherche",
     "Up next": "À suivre",
     "AUTOPLAY": "LECTURE AUTOMATIQUE",
@@ -50,4 +53,11 @@ translations = {
     'December': 'Décembre',
     'EDIT MEDIA': 'MODIFIER LE MÉDIA',
     'DELETE MEDIA': 'SUPPRIMER LE MÉDIA',
+    'DOWNLOAD': 'TÉLÉCHARGER',
+    'SAVE': 'AJOUTER',
+    'SHARE': 'PARTAGER',
+    'EDIT BANNER': 'MODIFIER LA BANNIÈRE',
+    'EDIT PROFILE': 'MODIFIER LE PROFIL',
+    'ADD BANNER': 'AJOUTER UNE BANNIÈRE',
+    'TIMEAGO_LANGUAGE': 'fr',
 }

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {usePopup} from '../../utils/hooks/';
 import {SiteContext} from '../../utils/contexts/';
 import {MediaPageStore} from '../../utils/stores/';
-import {formatInnerLink} from '../../utils/helpers/';
+import {formatInnerLink, translate_string} from '../../utils/helpers/';
 import {CircleIconButton, MaterialIcon, NavigationContentApp, NavigationMenuList, PopupMain} from '../_shared/';
 
 function downloadOptionsList() {
@@ -72,7 +72,7 @@ export function VideoMediaDownloadLink(props) {
                     <CircleIconButton type="span">
                         <MaterialIcon type="arrow_downward"/>
                     </CircleIconButton>
-                    <span>DOWNLOAD</span>
+                    <span>{translate_string('DOWNLOAD')}</span>
                 </button>
             </PopupTrigger>
 
