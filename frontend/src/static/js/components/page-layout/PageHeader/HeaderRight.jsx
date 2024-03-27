@@ -95,39 +95,39 @@ function headerPopupPages(user, popupNavItems, hasHeaderThemeSwitcher) {
 //   ) : null;
 // }
 
-// function LoginButton({user, link, hasHeaderThemeSwitcher}) {
-//     return user.is.anonymous && user.can.login ? (
-//         <div className="sign-in-wrap">
-//             <a
-//                 href={link}
-//                 rel="noffolow"
-//                 className={
-//                     'button-link sign-in' + (hasHeaderThemeSwitcher ? ' hidden-only-in-small' : ' hidden-only-in-extra-small')
-//                 }
-//                 title={translate_string('Sign in')}
-//             >
-//                 {translate_string('Sign in')}
-//             </a>
-//         </div>
-//     ) : null;
-// }
-//
-// function RegisterButton({user, link, hasHeaderThemeSwitcher}) {
-//     return user.is.anonymous && user.can.register ? (
-//         <div className="register-wrap">
-//             <a
-//                 href={link}
-//                 className={
-//                     'button-link register-link' +
-//                     (hasHeaderThemeSwitcher ? ' hidden-only-in-small' : ' hidden-only-in-extra-small')
-//                 }
-//                 title={translate_string('Register')}
-//             >
-//                 {translate_string('Register')}
-//             </a>
-//         </div>
-//     ) : null;
-// }
+function LoginButton({user, link, hasHeaderThemeSwitcher}) {
+    return user.is.anonymous && user.can.login ? (
+        <div className="sign-in-wrap">
+            <a
+                href={link}
+                rel="noffolow"
+                className={
+                    'button-link sign-in' + (hasHeaderThemeSwitcher ? ' hidden-only-in-small' : ' hidden-only-in-extra-small')
+                }
+                title={translate_string('Sign in')}
+            >
+                {translate_string('Sign in')}
+            </a>
+        </div>
+    ) : null;
+}
+
+function RegisterButton({user, link, hasHeaderThemeSwitcher}) {
+    return user.is.anonymous && user.can.register ? (
+        <div className="register-wrap">
+            <a
+                href={link}
+                className={
+                    'button-link register-link' +
+                    (hasHeaderThemeSwitcher ? ' hidden-only-in-small' : ' hidden-only-in-extra-small')
+                }
+                title={translate_string('Register')}
+            >
+                {translate_string('Register')}
+            </a>
+        </div>
+    ) : null;
+}
 
 export function HeaderRight(props) {
     const {toggleMobileSearch} = useLayout();
@@ -176,13 +176,13 @@ export function HeaderRight(props) {
                                             </PopupContent>
                                         </div>
 
-                                        {/*<LoginButton user={user} link={links.signin}*/}
-                                        {/*             hasHeaderThemeSwitcher={header.hasThemeSwitcher}/>*/}
-                                        {/*<RegisterButton*/}
-                                        {/*    user={user}*/}
-                                        {/*    link={links.register}*/}
-                                        {/*    hasHeaderThemeSwitcher={header.hasThemeSwitcher}*/}
-                                        {/*/>*/}
+                                        <LoginButton user={user} link={links.signin}
+                                                     hasHeaderThemeSwitcher={header.hasThemeSwitcher}/>
+                                        <RegisterButton
+                                            user={user}
+                                            link={links.register}
+                                            hasHeaderThemeSwitcher={header.hasThemeSwitcher}
+                                        />
 
                                         {PageStore.get('config-contents').header.right ? (
                                             <div

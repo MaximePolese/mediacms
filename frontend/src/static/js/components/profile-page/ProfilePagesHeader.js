@@ -162,7 +162,7 @@ class ProfileSearchBar extends React.PureComponent {
             ref="SearchInput"
             type="text"
             name="aq"
-            placeholder="Search"
+            placeholder={translate_string("Search")}
             aria-label="Search"
             value={this.state.queryVal}
             onChange={this.onChange}
@@ -316,13 +316,13 @@ class NavMenuInlineTabs extends React.PureComponent {
             <InlineTab
               id="about"
               isActive={'about' === this.props.type}
-              label={'About' + (this.userIsAuthor ? ' Me' : '')}
+              label={translate_string('About' + (this.userIsAuthor ? ' Me' : ''))}
               link={LinksContext._currentValue.profile.about}
             />
             <InlineTab
               id="media"
               isActive={'media' === this.props.type}
-              label={(this.userIsAuthor ? 'My ' : '') + 'Media'}
+              label={translate_string((this.userIsAuthor ? 'My ' : '') + 'Media')}
               link={LinksContext._currentValue.profile.media}
             />
 
@@ -572,7 +572,7 @@ export default function ProfilePagesHeader(props) {
               <div>{props.author.thumbnail_url ? <img src={props.author.thumbnail_url} alt="" /> : null}</div>
               <div>
                 {props.author.name ? <h1>{props.author.name}</h1> : null}
-                {userCanEditProfile ? <EditProfileButton link={ProfilePageStore.get('author-data').edit_url} /> : null}
+                {/*{userCanEditProfile ? <EditProfileButton link={ProfilePageStore.get('author-data').edit_url} /> : null}*/}
               </div>
             </div>
           </div>

@@ -19,9 +19,9 @@ function popupTopNavItems() {
                 link: links.user.addMedia,
                 icon: 'video_call',
                 text: translate_string('Upload media'),
-                itemAttr: {
-                    className: 'visible-only-in-small',
-                },
+                // itemAttr: {
+                //     className: 'visible-only-in-small',
+                // },
             });
 
             if (user.pages.media) {

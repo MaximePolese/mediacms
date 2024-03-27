@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import UrlParse from 'url-parse';
 import { ApiUrlContext, MemberContext, SiteContext } from '../utils/contexts/';
-import { formatInnerLink, csrfToken, postRequest } from '../utils/helpers/';
+import {formatInnerLink, csrfToken, postRequest, translate_string} from '../utils/helpers/';
 import { PageActions } from '../utils/actions/';
 import { PageStore, ProfilePageStore } from '../utils/stores/';
 import ProfilePagesHeader from '../components/profile-page/ProfilePagesHeader';
@@ -301,5 +301,5 @@ ProfileAboutPage.propTypes = {
 };
 
 ProfileAboutPage.defaultProps = {
-  title: 'Biography',
+  title: translate_string('Biography'),
 };

@@ -60,4 +60,8 @@ translations = {
     'EDIT PROFILE': 'MODIFIER LE PROFIL',
     'ADD BANNER': 'AJOUTER UNE BANNIÈRE',
     'TIMEAGO_LANGUAGE': 'fr',
+    'About Me': 'Mes informations',
+    'My Media': 'Mes médias',
+    'Biography': 'Ma description',
+    'Uploads': 'Médias téléchargés',
 }

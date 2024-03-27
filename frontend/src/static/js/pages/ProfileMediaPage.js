@@ -11,6 +11,7 @@ import { LazyLoadItemListAsync } from '../components/item-list/LazyLoadItemListA
 import { Page } from './_Page';
 
 import '../components/profile-page/ProfilePage.scss';
+import {translate_string} from "../utils/helpers";
 
 function EmptyChannelMedia(props) {
   return (
@@ -176,5 +177,5 @@ ProfileMediaPage.propTypes = {
 };
 
 ProfileMediaPage.defaultProps = {
-  title: 'Uploads',
+  title: translate_string('Uploads'),
 };
