@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MaterialIcon } from '../material-icon/MaterialIcon.jsx';
+import {translate_string} from "../../../utils/helpers";
 
 export function FiltersToggleButton(props) {
   const [isActive, setIsActive] = useState(props.active);
@@ -17,7 +18,7 @@ export function FiltersToggleButton(props) {
       <button className={isActive ? 'active' : ''} aria-label="Filter" onClick={onClick}>
         <MaterialIcon type="filter_list" />
         <span className="filter-button-label">
-          <span className="filter-button-label-text">FILTERS</span>
+          <span className="filter-button-label-text">{translate_string('FILTERS')}</span>
         </span>
       </button>
     </div>
