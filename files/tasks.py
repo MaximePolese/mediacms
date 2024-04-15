@@ -37,7 +37,7 @@ from .helpers import (
 )
 from .methods import list_tasks, notify_users, pre_save_action
 from .models import Category, EncodeProfile, Encoding, Media, Rating, Tag
-from uploader.management.commands.upload_medias import download_csv
+from uploader.management.commands.upload_medias import download_csv, upload_media
 
 logger = get_task_logger(__name__)
 
@@ -800,4 +800,5 @@ def remove_media_file(media_file=None):
 
 @task(name="upload_medias_from_ftp", queue="long_tasks")
 def upload_medias_from_ftp():
-    download_csv()
+    data = download_csv()
+    # upload_media(data)

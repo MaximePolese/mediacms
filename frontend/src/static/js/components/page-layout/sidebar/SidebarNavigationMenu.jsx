@@ -83,7 +83,7 @@ export function SidebarNavigationMenu() {
         ) {
             items.push({
                 link: links.archive.categories,
-                icon: 'list_alt', // à remplacer par l'icone trophy
+                icon: 'list_alt', //TODO: à remplacer par l'icone trophy
                 text: translate_string(PageStore.get('config-enabled').taxonomies.categories.title),
                 className: 'nav-item-categories',
             });

@@ -8,8 +8,9 @@ from django.core.management.base import BaseCommand, CommandError
 
 from django.conf import settings
 
+from files import helpers
 from files.helpers import rm_file
-from files.models import Media, Category
+from files.models import Media, Category, Tag
 from users.models import User
 
 
@@ -58,19 +59,22 @@ def upload_media(data):
 
     for video_file in video_files:
         video_file_name = video_file.split('.')[0]
+        rider_tag = ""
+        horse_tag = ""
         title = ""
         category_name = ""
         for row in data:
             picture = str(row[5])
             if picture == video_file_name:
-                title = row[4] + " " + row[3]
+                rider_tag = row[4]
+                horse_tag = row[3]
+                title = rider_tag + " - " + horse_tag
                 category_name = row[1]
         print(title, category_name)
 
-        if Category.objects.filter(title=category_name).exists():
-            new_category = Category.objects.get(title=category_name)
-        else:
-            new_category = Category.objects.create(title=category_name)
+        new_category, _ = Category.objects.get_or_create(title=category_name)
+        new_rider_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(rider_tag))
+        new_horse_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(horse_tag))
 
         source_file_path = os.path.join(source_directory, video_file)
         print(source_file_path)
@@ -79,7 +83,11 @@ def upload_media(data):
         shutil.copy2(source_file_path, destination_file_path)
 
         user = User.objects.get(username='cha')
+
         with open(destination_file_path, "rb") as f:
             new_media = Media.objects.create(title=title, media_file=File(f), user=user)
             new_media.category.add(new_category)
+            new_media.tags.add(new_rider_tag)
+            new_media.tags.add(new_horse_tag)
+
         rm_file(destination_file_path)
