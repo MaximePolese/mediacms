@@ -73,8 +73,8 @@ def upload_media(data):
         print(title, category_name)
 
         new_category, _ = Category.objects.get_or_create(title=category_name)
-        new_rider_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(rider_tag))
-        new_horse_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(horse_tag))
+        new_rider_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(rider_tag), type='rider')
+        new_horse_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(horse_tag), type='horse')
 
         source_file_path = os.path.join(source_directory, video_file)
         print(source_file_path)
