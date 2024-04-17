@@ -81,6 +81,8 @@ const PAGES = {
   history: { id: 'history', title: 'History', component: 'HistoryPage' },
   liked: { id: 'liked', title: 'Liked media', component: 'LikedMediaPage' },
   tags: { id: 'tags', title: 'Tags', component: 'TagsPage' },
+  ridertags: { id: 'riders', title: 'Riders', component: 'RiderTagsPage' },
+  horsetags: { id: 'horses', title: 'Horses', component: 'HorseTagsPage' },
   categories: { id: 'categories', title: 'Categories', component: 'CategoriesPage' },
   'manage-media': { id: 'manage-media', title: 'Manage media', component: 'ManageMediaPage' },
   'manage-users': { id: 'manage-users', title: 'Manage users', component: 'ManageUsersPage' },

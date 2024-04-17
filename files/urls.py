@@ -37,6 +37,8 @@ urlpatterns = [
                   re_path(r"^search", views.search, name="search"),
                   re_path(r"^scpublisher", views.upload_media, name="upload_media"),
                   re_path(r"^tags", views.tags, name="tags"),
+                  re_path(r"^riders", views.rider_tags, name='riders'),
+                  re_path(r"^horses", views.horse_tags, name='horses'),
                   # re_path(r"^tos$", views.tos, name="terms_of_service"),
                   re_path(r"^view", views.view_media, name="get_media"),
                   re_path(r"^upload", views.upload_media, name="upload_media"),
@@ -60,6 +62,7 @@ urlpatterns = [
                   ),
                   re_path(r"^api/v1/categories$", views.CategoryList.as_view()),
                   re_path(r"^api/v1/tags$", views.TagList.as_view()),
+                  re_path(r"^api/v1/tags/(?P<type>[\w]*)$", views.TagList.as_view()),
                   re_path(r"^api/v1/comments$", views.CommentList.as_view()),
                   re_path(
                       r"^api/v1/media/(?P<friendly_token>[\w]*)/comments$",

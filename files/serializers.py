@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Category, Comment, EncodeProfile, Media, Playlist, Tag
 
+
 # TODO: put them in a more DRY way
 
 
@@ -202,7 +203,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ("title", "media_count", "thumbnail_url")
+        fields = ("title", "media_count", "thumbnail_url", "type")
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
@@ -220,7 +221,8 @@ class PlaylistDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Playlist
         read_only_fields = ("add_date", "user")
-        fields = ("title", "add_date", "user_thumbnail_url", "description", "user", "media_count", "url", "thumbnail_url")
+        fields = (
+        "title", "add_date", "user_thumbnail_url", "description", "user", "media_count", "url", "thumbnail_url")
 
 
 class CommentSerializer(serializers.ModelSerializer):

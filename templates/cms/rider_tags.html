@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block headtitle %}Riders - {{PORTAL_NAME}}{% endblock headtitle %}
+
+{% block headermeta %}
+
+<meta property="og:title" content="Riders - {{PORTAL_NAME}}">
+<meta property="og:type" content="website">
+<meta property="og:description" content="">
+
+<meta name="twitter:card" content="summary">
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{PORTAL_NAME}}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{FRONTEND_HOST}}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Riders",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{FRONTEND_HOST}}/riders"
+                }
+            }
+        ]
+    }
+</script>
+
+{% endblock headermeta %}
+
+{% block content %}
+<div id="page-rider-tags"></div>{% endblock %}
+
+{% block bottomimports %}
+<script src="{% static " js/ridertags.js" %}"></script>
+{% endblock bottomimports %}

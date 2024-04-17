@@ -17,3 +17,5 @@ export * from './ProfilePlaylistsPage';
 export * from './RecommendedMediaPage';
 export * from './SearchPage';
 export * from './TagsPage';
+export * from './RiderTagsPage';
+export * from './HorseTagsPage';

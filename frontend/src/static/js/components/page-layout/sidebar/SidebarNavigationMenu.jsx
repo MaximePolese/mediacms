@@ -76,6 +76,7 @@ export function SidebarNavigationMenu() {
             });
         }
 
+
         if (
             !sidebar.hideCategoriesLink &&
             PageStore.get('config-enabled').taxonomies.categories &&
@@ -83,9 +84,35 @@ export function SidebarNavigationMenu() {
         ) {
             items.push({
                 link: links.archive.categories,
-                icon: 'list_alt', //TODO: à remplacer par l'icone trophy
+                icon: 'emoji_events',
                 text: translate_string(PageStore.get('config-enabled').taxonomies.categories.title),
                 className: 'nav-item-categories',
+            });
+        }
+
+        if (
+            !sidebar.hideTagsLink &&
+            PageStore.get('config-enabled').taxonomies.ridertags &&
+            PageStore.get('config-enabled').taxonomies.ridertags.enabled
+        ) {
+            items.push({
+                link: links.archive.ridertags,
+                icon: 'person',
+                text: translate_string(PageStore.get('config-enabled').taxonomies.ridertags.title),
+                className: 'nav-item-tags',
+            });
+        }
+
+        if (
+            !sidebar.hideTagsLink &&
+            PageStore.get('config-enabled').taxonomies.horsetags &&
+            PageStore.get('config-enabled').taxonomies.horsetags.enabled
+        ) {
+            items.push({
+                link: links.archive.horsetags,
+                icon: 'star',
+                text: translate_string(PageStore.get('config-enabled').taxonomies.horsetags.title),
+                className: 'nav-item-tags',
             });
         }
 

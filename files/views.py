@@ -309,6 +309,16 @@ def tags(request):
     return render(request, "cms/tags.html", context)
 
 
+def rider_tags(request):
+    context = {}
+    return render(request, "cms/rider_tags.html", context)
+
+
+def horse_tags(request):
+    context = {}
+    return render(request, "cms/horse_tags.html", context)
+
+
 def tos(request):
     """Terms of service view"""
 
@@ -752,7 +762,7 @@ class MediaActions(APIView):
 
 class MediaSearch(APIView):
     """
-    Retrieve results for searc
+    Retrieve results for search
     Only GET is implemented here
     """
 
@@ -1379,8 +1389,12 @@ class TagList(APIView):
             200: openapi.Response('response description', TagSerializer),
         },
     )
-    def get(self, request, format=None):
-        tags = Tag.objects.filter().order_by("-media_count")
+    def get(self, request, format=None, type=None):  # Ajoutez 'type' comme argument
+        if type:
+            tags = Tag.objects.filter(type=type).order_by("-media_count")
+        else:
+            tags = Tag.objects.all().order_by("-media_count")
+
         pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
         paginator = pagination_class()
         page = paginator.paginate_queryset(tags, request)
