@@ -59,7 +59,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     search_fields = ["title"]
-    list_display = ["title", "user", "media_count"]
+    list_display = ["title", "user", "media_count", "type"]
     readonly_fields = ("user", "media_count")
 
 
