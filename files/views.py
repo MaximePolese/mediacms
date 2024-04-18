@@ -1389,7 +1389,7 @@ class TagList(APIView):
             200: openapi.Response('response description', TagSerializer),
         },
     )
-    def get(self, request, format=None, type=None):  # Ajoutez 'type' comme argument
+    def get(self, request, format=None, type=None):
         if type:
             tags = Tag.objects.filter(type=type).order_by("-media_count")
         else:
