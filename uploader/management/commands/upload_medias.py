@@ -72,17 +72,19 @@ def upload_media(data):
                 category_name = row[1]
         print(title, category_name)
 
-        new_category, _ = Category.objects.get_or_create(title=category_name)
-        new_rider_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(rider_tag), type='rider')
-        new_horse_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(horse_tag), type='horse')
+        user = User.objects.get(username='cha')
+
+        new_category, _ = Category.objects.get_or_create(title=category_name, user=user)
+        new_rider_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(rider_tag), type='rider',
+                                                     user=user)
+        new_horse_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(horse_tag), type='horse',
+                                                     user=user)
 
         source_file_path = os.path.join(source_directory, video_file)
         print(source_file_path)
         destination_file_path = os.path.join(settings.MEDIA_ROOT, video_file)
         print(destination_file_path)
         shutil.copy2(source_file_path, destination_file_path)
-
-        user = User.objects.get(username='cha')
 
         with open(destination_file_path, "rb") as f:
             new_media = Media.objects.create(title=title, media_file=File(f), user=user)
