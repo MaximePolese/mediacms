@@ -91,7 +91,6 @@ export function SidebarNavigationMenu() {
         }
 
         if (
-            !sidebar.hideTagsLink &&
             PageStore.get('config-enabled').taxonomies.ridertags &&
             PageStore.get('config-enabled').taxonomies.ridertags.enabled
         ) {
@@ -104,7 +103,6 @@ export function SidebarNavigationMenu() {
         }
 
         if (
-            !sidebar.hideTagsLink &&
             PageStore.get('config-enabled').taxonomies.horsetags &&
             PageStore.get('config-enabled').taxonomies.horsetags.enabled
         ) {
