@@ -93,7 +93,8 @@ def encoding_media_file_path(instance, filename):
     """Helper function to place encoded media file"""
 
     file_name = "{0}.{1}".format(instance.media.uid.hex, helpers.get_file_name(filename))
-    return settings.MEDIA_ENCODING_DIR + "{0}/{1}/{2}".format(instance.profile.id, instance.media.user.username, file_name)
+    return settings.MEDIA_ENCODING_DIR + "{0}/{1}/{2}".format(instance.profile.id, instance.media.user.username,
+                                                              file_name)
 
 
 def original_thumbnail_file_path(instance, filename):
@@ -240,7 +241,7 @@ class Media(models.Model):
 
     tags = models.ManyToManyField("Tag", blank=True, help_text="select one or more out of the existing tags")
 
-    title = models.CharField(max_length=100, help_text="media title", blank=True, db_index=True)
+    title = models.CharField(max_length=100, blank=True, db_index=True)
 
     thumbnail = ProcessedImageField(
         upload_to=original_thumbnail_file_path,
@@ -648,7 +649,8 @@ class Media(models.Model):
         Set success if at least one mp4 or webm exists
         """
         mp4_statuses = set(encoding.status for encoding in self.encodings.filter(profile__extension="mp4", chunk=False))
-        webm_statuses = set(encoding.status for encoding in self.encodings.filter(profile__extension="webm", chunk=False))
+        webm_statuses = set(
+            encoding.status for encoding in self.encodings.filter(profile__extension="webm", chunk=False))
 
         if not mp4_statuses and not webm_statuses:
             encoding_status = "pending"
@@ -676,7 +678,8 @@ class Media(models.Model):
         # if this is enabled, return original file on a way
         # that video.js can consume
         if settings.DO_NOT_TRANSCODE_VIDEO:
-            ret['0-original'] = {"h264": {"url": helpers.url_from_path(self.media_file.path), "status": "success", "progress": 100}}
+            ret['0-original'] = {
+                "h264": {"url": helpers.url_from_path(self.media_file.path), "status": "success", "progress": 100}}
             return ret
 
         for encoding in self.encodings.select_related("profile").filter(chunk=False):
@@ -947,7 +950,8 @@ class Category(models.Model):
         blank=True,
     )
 
-    listings_thumbnail = models.CharField(max_length=400, blank=True, null=True, help_text="Thumbnail to show on listings")
+    listings_thumbnail = models.CharField(max_length=400, blank=True, null=True,
+                                          help_text="Thumbnail to show on listings")
 
     def __str__(self):
         return self.title
@@ -961,7 +965,6 @@ class Category(models.Model):
 
     def update_category_media(self):
         """Set media_count"""
-
         self.media_count = Media.objects.filter(listable=True, category=self).count()
         self.save(update_fields=["media_count"])
         return True
@@ -1021,7 +1024,10 @@ class Tag(models.Model):
 
     def update_tag_media(self):
         self.media_count = Media.objects.filter(state="public", is_reviewed=True, tags=self).count()
-        self.save(update_fields=["media_count"])
+        if self.media_count == 0:
+            self.delete()
+        else:
+            self.save(update_fields=["media_count"])
         return True
 
     def save(self, *args, **kwargs):
@@ -1230,7 +1236,8 @@ class Rating(models.Model):
         unique_together = ("user", "media", "rating_category")
 
     def __str__(self):
-        return "{0}, rate for {1} for category {2}".format(self.user.username, self.media.title, self.rating_category.title)
+        return "{0}, rate for {1} for category {2}".format(self.user.username, self.media.title,
+                                                           self.rating_category.title)
 
 
 class Playlist(models.Model):
@@ -1433,7 +1440,7 @@ def media_file_delete(sender, instance, **kwargs):
             helpers.rm_file(thumbnail)
 
 
-@receiver(m2m_changed, sender=Media.category.through)
+@receiver(m2m_changed, sender=Media.tags.through)
 def media_m2m(sender, instance, **kwargs):
     if instance.category.all():
         for category in instance.category.all():
@@ -1542,16 +1549,17 @@ def encoding_file_save(sender, instance, created, **kwargs):
                     # first perform one last validation
                     # to avoid that this is run twice
                     if (
-                        len(orig_chunks)
-                        == Encoding.objects.filter(  # noqa
-                            media=instance.media,
-                            profile=instance.profile,
-                            chunks_info=instance.chunks_info,
-                        ).count()
+                            len(orig_chunks)
+                            == Encoding.objects.filter(  # noqa
+                        media=instance.media,
+                        profile=instance.profile,
+                        chunks_info=instance.chunks_info,
+                    ).count()
                     ):
                         # if two chunks are finished at the same time, this
                         # will be changed
-                        who = Encoding.objects.filter(media=encoding.media, profile=encoding.profile).exclude(id=encoding.id)
+                        who = Encoding.objects.filter(media=encoding.media, profile=encoding.profile).exclude(
+                            id=encoding.id)
                         who.delete()
                     else:
                         encoding.delete()
@@ -1568,7 +1576,8 @@ def encoding_file_save(sender, instance, created, **kwargs):
     elif instance.chunk and instance.status == "fail":
         encoding = Encoding(media=instance.media, profile=instance.profile, status="fail", progress=100)
 
-        chunks = Encoding.objects.filter(media=instance.media, chunks_info=instance.chunks_info, chunk=True).order_by("add_date")
+        chunks = Encoding.objects.filter(media=instance.media, chunks_info=instance.chunks_info, chunk=True).order_by(
+            "add_date")
 
         chunks_paths = [f.media_file.path for f in chunks]
 

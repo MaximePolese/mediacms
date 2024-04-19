@@ -128,11 +128,11 @@ def contact(request):
             title = "[{}] - Contact form message received".format(settings.PORTAL_NAME)
 
             msg = """
-You have received a message through the contact form\n
-Sender name: %s
-Sender email: %s\n
-\n %s
-""" % (
+            You have received a message through the contact form\n
+            Sender name: %s
+            Sender email: %s\n
+            \n %s
+            """ % (
                 name,
                 from_email,
                 message,
@@ -175,9 +175,11 @@ def edit_media(request):
     if request.method == "POST":
         form = MediaForm(request.user, request.POST, request.FILES, instance=media)
         if form.is_valid():
+            old_categories = list(media.category.all())
+            old_tags = list(media.tags.all())
             media = form.save()
-            for tag in media.tags.all():
-                media.tags.remove(tag)
+            media.tags.clear()
+
             if form.cleaned_data.get("new_tags"):
                 for tag in form.cleaned_data.get("new_tags").split(","):
                     tag = get_alphanumeric_only(tag)
@@ -189,6 +191,33 @@ def edit_media(request):
                             tag = Tag.objects.create(title=tag, user=request.user)
                         if tag not in media.tags.all():
                             media.tags.add(tag)
+            if form.cleaned_data.get("rider"):
+                rider = get_alphanumeric_only(form.cleaned_data.get("rider"))
+                rider = rider[:99]
+                if rider:
+                    try:
+                        rider_tag = Tag.objects.get(title=rider)
+                    except Tag.DoesNotExist:
+                        rider_tag = Tag.objects.create(title=rider, user=request.user, type="rider")
+                    if rider_tag not in media.tags.all():
+                        media.tags.add(rider_tag)
+            if form.cleaned_data.get("horse"):
+                horse = get_alphanumeric_only(form.cleaned_data.get("horse"))
+                horse = horse[:99]
+                if horse:
+                    try:
+                        horse_tag = Tag.objects.get(title=horse)
+                    except Tag.DoesNotExist:
+                        horse_tag = Tag.objects.create(title=horse, user=request.user, type="horse")
+                    if horse_tag not in media.tags.all():
+                        media.tags.add(horse_tag)
+
+            for tag in old_tags:
+                tag.update_tag_media()
+
+            for category in old_categories:
+                category.update_category_media()
+
             messages.add_message(request, messages.INFO, "Media was edited!")
             return HttpResponseRedirect(media.get_absolute_url())
     else:
