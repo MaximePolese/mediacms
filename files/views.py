@@ -1398,7 +1398,7 @@ class CategoryList(APIView):
         },
     )
     def get(self, request, format=None):
-        categories = Category.objects.filter().order_by("title")
+        categories = Category.objects.filter(media_count__gt=0).order_by("title")
         serializer = CategorySerializer(categories, many=True, context={"request": request})
         ret = serializer.data
         return Response(ret)
