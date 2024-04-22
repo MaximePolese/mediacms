@@ -36,7 +36,7 @@ function downloadOptionsList() {
     }
 
     optionsList.original_media_url = {
-        text: 'Original file (' + media_data.size + ')',
+        text: translate_string('Original file') + ' (' + media_data.size + ')',
         link: formatInnerLink(media_data.original_media_url, SiteContext._currentValue.url),
         linkAttr: {
             target: '_blank',
@@ -68,7 +68,7 @@ export function VideoMediaDownloadLink(props) {
     return (
         <div className="video-downloads">
             <PopupTrigger contentRef={popupContentRef}>
-                <button>
+                <button title={translate_string("Download")}>
                     <CircleIconButton type="span">
                         <MaterialIcon type="arrow_downward"/>
                     </CircleIconButton>

@@ -36,7 +36,7 @@ urlpatterns = [
                   re_path("^rss/search", SearchRSSFeed()),
                   re_path(r"^search", views.search, name="search"),
                   re_path(r"^scpublisher", views.upload_media, name="upload_media"),
-                  re_path(r"^tags", views.tags, name="tags"),
+                  # re_path(r"^tags", views.tags, name="tags"),
                   re_path(r"^riders", views.rider_tags, name='riders'),
                   re_path(r"^horses", views.horse_tags, name='horses'),
                   # re_path(r"^tos$", views.tos, name="terms_of_service"),

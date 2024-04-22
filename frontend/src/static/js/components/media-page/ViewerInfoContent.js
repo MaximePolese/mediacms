@@ -210,7 +210,8 @@ export default function ViewerInfoContent(props) {
                         </button>
                     ) : null}
                     {tagsContent.length ? (
-                        <MediaMetaField value={tagsContent} title={translate_string(1 < tagsContent.length ? 'Tags' : 'Tag')} id="tags"/>
+                        <MediaMetaField value={tagsContent}
+                                        title={translate_string(1 < tagsContent.length ? 'Tags' : 'Tag')} id="tags"/>
                     ) : null}
                     {categoriesContent.length ? (
                         <MediaMetaField
@@ -237,17 +238,17 @@ export default function ViewerInfoContent(props) {
                             <PopupContent contentRef={popupContentRef}>
                                 <PopupMain>
                                     <div className="popup-message">
-                                        <span className="popup-message-title">Media removal</span>
+                                        <span className="popup-message-title">{translate_string('Media removal')}</span>
                                         <span
-                                            className="popup-message-main">You're willing to remove media permanently?</span>
+                                            className="popup-message-main">{translate_string("You re willing to remove media permanently")} ?</span>
                                     </div>
                                     <hr/>
                                     <span className="popup-message-bottom">
                     <button className="button-link cancel-comment-removal" onClick={cancelMediaRemoval}>
-                      CANCEL
+                      {translate_string('CANCEL')}
                     </button>
                     <button className="button-link proceed-comment-removal" onClick={proceedMediaRemoval}>
-                      PROCEED
+                      {translate_string('PROCEED')}
                     </button>
                   </span>
                                 </PopupMain>

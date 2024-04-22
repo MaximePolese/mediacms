@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block headtitle %}Add new media - {{PORTAL_NAME}}{% endblock headtitle %}
+{% block headtitle %}{{FRONTEND_TRANSLATIONS.Add_new_media}} - {{PORTAL_NAME}}{% endblock headtitle %}
 
 {% block externallinks %}
 {% if LOAD_FROM_CDN %}
@@ -27,7 +27,7 @@
 		<div class="media-uploader-wrap">
 			<div class="media-uploader-top-wrap">
 				<div class="media-uploader-top-left-wrap">
-					<h1>{% trans "Upload media files" %}</h1>
+					<h1>{{FRONTEND_TRANSLATIONS.Upload_media_files}}</h1>
 				</div>
 				<div class="media-uploader-top-right-wrap"> </div>
 			</div>
@@ -39,10 +39,10 @@
 								<div class="media-drag-drop-content">
 									<div class="media-drag-drop-content-inner">
 										<span><i class="material-icons">cloud_upload</i></span>
-										<span>Drag and drop files</span>
-										<span>or</span>
+										<span>{{FRONTEND_TRANSLATIONS.Drag_and_drop_files}}</span>
+										<span>{{FRONTEND_TRANSLATIONS.or}}</span>
 										<span class="browse-files-btn-wrap">
-											<span class="qq-upload-button-selector">Browse your files</span>
+											<span class="qq-upload-button-selector">{{FRONTEND_TRANSLATIONS.Browse_your_files}}</span>
 										</span>
 										<div class="qq-upload-drop-area-selector media-dropzone" qq-hide-dropzone>
 											<span class="qq-upload-drop-area-text-selector"></span>
