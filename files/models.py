@@ -22,6 +22,7 @@ from django.utils.html import strip_tags
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit
 from mptt.models import MPTTModel, TreeForeignKey
+from django.utils.translation import gettext_lazy as translate
 
 from . import helpers
 from .stop_words import STOP_WORDS
@@ -119,11 +120,11 @@ def category_thumb_path(instance, filename):
 class Media(models.Model):
     """The most important model for MediaCMS"""
 
-    add_date = models.DateTimeField("Date produced", blank=True, null=True, db_index=True)
+    add_date = models.DateTimeField(translate("Date produced"), blank=True, null=True, db_index=True)
 
     allow_download = models.BooleanField(default=True, help_text="Whether option to download media is shown")
 
-    category = models.ManyToManyField("Category", blank=True, help_text="Media can be part of one or more categories")
+    category = models.ManyToManyField("Category", blank=True, help_text=translate("Media can be part of one or more categories"))
 
     channel = models.ForeignKey(
         "users.Channel",
@@ -236,7 +237,7 @@ class Media(models.Model):
         choices=MEDIA_STATES,
         default=helpers.get_portal_workflow(),
         db_index=True,
-        help_text="state of Media",
+        help_text=translate("state of Media"),
     )
 
     tags = models.ManyToManyField("Tag", blank=True, help_text="select one or more out of the existing tags")

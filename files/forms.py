@@ -1,5 +1,5 @@
 from django import forms
-
+from django.utils.translation import gettext_lazy as translate
 from .methods import get_next_state, is_mediacms_editor
 from .models import Media, Subtitle
 
@@ -10,8 +10,8 @@ class MultipleSelect(forms.CheckboxSelectMultiple):
 
 class MediaForm(forms.ModelForm):
     # new_tags = forms.CharField(label="Tags", help_text="a comma separated list of new tags.", required=False)
-    rider = forms.CharField(label="Rider", required=False)
-    horse = forms.CharField(label="Horse", required=False)
+    rider = forms.CharField(label=translate("Rider"), required=False)
+    horse = forms.CharField(label=translate("Horse"), required=False)
 
     class Meta:
         model = Media

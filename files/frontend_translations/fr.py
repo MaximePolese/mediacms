@@ -104,5 +104,15 @@ translations = {
     'Start at': 'Commencer à',
     'Original file': 'Fichier original',
     'Download': 'Télécharger',
+    'Embed Video': 'Intégrer la vidéo',
+    'Embed options': 'Options d\u2019intégration',
+    'Keep aspect ratio': 'Conserver le ratio',
+    'Horizontal orientation': 'Orientation horizontale',
+    'Vertical orientation': 'Orientation verticale',
+    'Width': 'Largeur',
+    'Height': 'Hauteur',
+    'Embed media code copied to clipboard': 'Code d\u2019intégration copié dans le presse-papiers',
+    'Playback speed': 'Vitesse de lecture',
+    'Update Media': 'Valider',
 
 }

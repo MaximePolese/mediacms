@@ -5,6 +5,7 @@ import { PageStore, MediaPageStore } from '../../utils/stores/';
 import { PageActions, MediaPageActions } from '../../utils/actions/';
 import { CircleIconButton, MaterialIcon, NumericInputWithUnit } from '../_shared/';
 import VideoViewer from '../media-viewer/VideoViewer';
+import {translate_string} from "../../utils/helpers";
 
 export function MediaShareEmbed(props) {
   const embedVideoDimensions = PageStore.get('config-options').embedded.video.dimensions;
@@ -111,7 +112,7 @@ export function MediaShareEmbed(props) {
 
   function onCompleteCopyMediaLink() {
     setTimeout(function () {
-      PageActions.addNotification('Embed media code copied to clipboard', 'clipboardEmbedMediaCodeCopy');
+      PageActions.addNotification(translate_string('Embed media code copied to clipboard'), 'clipboardEmbedMediaCodeCopy');
     }, 100);
   }
 
@@ -142,7 +143,7 @@ export function MediaShareEmbed(props) {
         <div ref={onRightRef} className="on-right">
           <div ref={onRightTopRef} className="on-right-top">
             <div className="on-right-top-inner">
-              <span className="ttl">Embed Video</span>
+              <span className="ttl">{translate_string('Embed Video')}</span>
               <CircleIconButton type="button" onClick={onClickEmbedShareExit}>
                 <MaterialIcon type="close" />
               </CircleIconButton>
@@ -169,7 +170,7 @@ export function MediaShareEmbed(props) {
             ></textarea>
 
             <div className="iframe-config">
-              <div className="iframe-config-options-title">Embed options</div>
+              <div className="iframe-config-options-title">{translate_string('Embed options')}</div>
 
               <div className="iframe-config-option">
                 {/*<div className="option-title">
@@ -181,19 +182,19 @@ export function MediaShareEmbed(props) {
                     <div className="options-group">
                       <label style={{ minHeight: '36px' }}>
                         <input type="checkbox" checked={keepAspectRatio} onChange={onKeepAspectRatioChange} />
-                        Keep aspect ratio
+                        {translate_string('Keep aspect ratio')}
                       </label>
                     </div>
 
                     {!keepAspectRatio ? null : (
                       <div className="options-group">
                         <select ref={aspectRatioValueRef} onChange={onAspectRatioChange} value={aspectRatio}>
-                          <optgroup label="Horizontal orientation">
+                          <optgroup label={translate_string("Horizontal orientation")}>
                             <option value="16:9">16:9</option>
                             <option value="4:3">4:3</option>
                             <option value="3:2">3:2</option>
                           </optgroup>
-                          <optgroup label="Vertical orientation">
+                          <optgroup label={translate_string("Vertical orientation")}>
                             <option value="9:16">9:16</option>
                             <option value="3:4">3:4</option>
                             <option value="2:3">2:3</option>
@@ -209,7 +210,7 @@ export function MediaShareEmbed(props) {
                     <NumericInputWithUnit
                       valueCallback={onEmbedWidthValueChange}
                       unitCallback={onEmbedWidthUnitChange}
-                      label={'Width'}
+                      label={translate_string('Width')}
                       defaultValue={parseInt(embedWidthValue, 10)}
                       defaultUnit={embedWidthUnit}
                       minValue={1}
@@ -222,7 +223,7 @@ export function MediaShareEmbed(props) {
                     <NumericInputWithUnit
                       valueCallback={onEmbedHeightValueChange}
                       unitCallback={onEmbedHeightUnitChange}
-                      label={'Height'}
+                      label={translate_string('Height')}
                       defaultValue={parseInt(embedHeightValue, 10)}
                       defaultUnit={embedHeightUnit}
                       minValue={1}
@@ -236,7 +237,7 @@ export function MediaShareEmbed(props) {
           </div>
 
           <div ref={onRightBottomRef} className="on-right-bottom">
-            <button onClick={onClickCopyMediaLink}>COPY</button>
+            <button onClick={onClickCopyMediaLink}>{translate_string('COPY')}</button>
           </div>
         </div>
       </div>
