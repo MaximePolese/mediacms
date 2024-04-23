@@ -53,6 +53,7 @@ translations = {
     'December': 'Décembre',
     'EDIT MEDIA': 'MODIFIER LE MÉDIA',
     'DELETE MEDIA': 'SUPPRIMER LE MÉDIA',
+    'Delete media': 'Supprimer le média',
     'DOWNLOAD': 'TÉLÉCHARGER',
     'SAVE': 'AJOUTER',
     'SHARE': 'PARTAGER',

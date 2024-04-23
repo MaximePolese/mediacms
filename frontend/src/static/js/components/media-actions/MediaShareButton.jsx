@@ -51,7 +51,7 @@ export function MediaShareButton(props) {
   return (
     <div className="share">
       <PopupTrigger contentRef={popupContentRef}>
-        <button>
+        <button title={translate_string("Share media")}>
           <CircleIconButton type="span">
             <MaterialIcon type="share" />
           </CircleIconButton>

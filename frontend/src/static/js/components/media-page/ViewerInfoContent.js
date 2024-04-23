@@ -88,11 +88,12 @@ function EditMediaButton(props) {
     }
 
     return (
-        <a href={link} rel="nofollow" title="Edit media" className="edit-media">
+        <a href={link} rel="nofollow" title={translate_string("Edit media")} className="edit-media">
             {translate_string('EDIT MEDIA')}
         </a>
     );
 }
+
 
 function EditSubtitleButton(props) {
     let link = props.link;
@@ -232,7 +233,7 @@ export default function ViewerInfoContent(props) {
                             {/*) : null}*/}
 
                             <PopupTrigger contentRef={popupContentRef}>
-                                <button className="remove-media">{translate_string('DELETE MEDIA')}</button>
+                                <button className="remove-media"  title={translate_string("Delete media")}>{translate_string('DELETE MEDIA')}</button>
                             </PopupTrigger>
 
                             <PopupContent contentRef={popupContentRef}>
