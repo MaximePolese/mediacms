@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from .methods import is_mediacms_editor, is_mediacms_manager
-from .frontend_translations import get_frontend_translations
+from .translations import get_frontend_translations
 
 
 def stuff(request):

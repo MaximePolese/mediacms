@@ -22,3 +22,12 @@ def get_frontend_translations(language_code):
             translation[key.replace(' ', '_')] = translation.pop(key)
 
     return translation
+
+
+def get_backend_translations(language_code):
+    if language_code not in [pair[0] for pair in settings.LANGUAGES]:
+        return {}
+    if language_code in ['en', 'en-us', 'en-gb']:
+        return {}
+    translation = translations[language_code]
+    return translation

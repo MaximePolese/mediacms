@@ -1,5 +1,6 @@
 from django import forms
-from django.utils.translation import gettext_lazy as translate
+
+from .helpers import translate
 from .methods import get_next_state, is_mediacms_editor
 from .models import Media, Subtitle
 

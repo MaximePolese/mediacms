@@ -1,7 +1,6 @@
 import os
 
 from celery.schedules import crontab
-from django.utils.translation import gettext_lazy as _
 
 DEBUG = False
 
@@ -11,8 +10,8 @@ PORTAL_NAME = "MediaCMS"
 PORTAL_DESCRIPTION = ""
 LANGUAGE_CODE = "fr"
 LANGUAGES = [
-    ("en", _("English")),
-    ('fr', _('French')),
+    ('en', 'English'),
+    ('fr', 'French'),
 ]
 TIME_ZONE = "Europe/Paris"
 

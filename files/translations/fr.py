@@ -114,5 +114,8 @@ translations = {
     'Embed media code copied to clipboard': 'Code d\u2019intégration copié dans le presse-papiers',
     'Playback speed': 'Vitesse de lecture',
     'Update Media': 'Valider',
+    'Date produced': 'Date de production',
+    'Rider': 'Cavalier',
+    'Horse': 'Cheval'
 
 }

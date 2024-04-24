@@ -12,6 +12,9 @@ from fractions import Fraction
 
 import filetype
 from django.conf import settings
+from .translations import get_backend_translations
+
+from files.translations import fr
 
 CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -38,7 +41,6 @@ X26x_PRESET_BIG_HEIGHT = "faster"
 
 # VP9_SPEED = 1  # between 0 and 4, lower is slower
 VP9_SPEED = 2
-
 
 VIDEO_CRFS = {
     "h264_baseline": 23,
@@ -86,7 +88,6 @@ VIDEO_BITRATES = {
         60: {720: 1800, 1080: 3000, 1440: 8000, 2160: 18000},
     },
 }
-
 
 AUDIO_ENCODERS = {"h264": "aac", "h265": "aac", "vp9": "libopus"}
 
@@ -330,7 +331,7 @@ def media_file_info(input_file):
         except ValueError:
             hms, msec = duration_str.split(",")
 
-        total_dur = sum(int(x) * 60**i for i, x in enumerate(reversed(hms.split(":"))))
+        total_dur = sum(int(x) * 60 ** i for i, x in enumerate(reversed(hms.split(":"))))
         video_duration = total_dur + float("0." + msec)
     else:
         # fallback to format, eg for webm
@@ -409,7 +410,7 @@ def media_file_info(input_file):
                 hms, msec = duration_str.split(".")
             except ValueError:
                 hms, msec = duration_str.split(",")
-            total_dur = sum(int(x) * 60**i for i, x in enumerate(reversed(hms.split(":"))))
+            total_dur = sum(int(x) * 60 ** i for i, x in enumerate(reversed(hms.split(":"))))
             audio_duration = total_dur + float("0." + msec)
         else:
             # fallback to format, eg for webm
@@ -489,21 +490,21 @@ def show_file_size(size):
 
 
 def get_base_ffmpeg_command(
-    input_file,
-    output_file,
-    has_audio,
-    codec,
-    encoder,
-    audio_encoder,
-    target_fps,
-    interlaced,
-    target_height,
-    target_rate,
-    target_rate_audio,
-    pass_file,
-    pass_number,
-    enc_type,
-    chunk,
+        input_file,
+        output_file,
+        has_audio,
+        codec,
+        encoder,
+        audio_encoder,
+        target_fps,
+        interlaced,
+        target_height,
+        target_rate,
+        target_rate_audio,
+        pass_file,
+        pass_number,
+        enc_type,
+        chunk,
 ):
     """Get the base command for a specific codec, height/rate, and pass
 
@@ -793,3 +794,10 @@ def get_alphanumeric_only(string):
     """
     string = "".join([char for char in string if char.isalnum()])
     return string.lower()
+
+
+def translate(string):
+    """Translate a string to the current language inside backend python code"""
+    language_code = settings.LANGUAGE_CODE
+    translations = get_backend_translations(language_code)
+    return translations.get(string, string)
