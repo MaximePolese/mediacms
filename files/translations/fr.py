@@ -12,6 +12,7 @@ translations = {
     "Members": "Membres",
     "Upload": "Télécharger",
     "Upload media": "Télécharger un média",
+    "UPLOAD MEDIA": "TELECHARGER UN MEDIA",
     'Upload media files': 'Télécharger des médias',
     "My media": "Mes médias",
     "My playlists": "Mes listes de lecture",
@@ -114,8 +115,20 @@ translations = {
     'Embed media code copied to clipboard': 'Code d\u2019intégration copié dans le presse-papiers',
     'Playback speed': 'Vitesse de lecture',
     'Update Media': 'Valider',
-    'Date produced': 'Date de production',
+    'Welcome': 'Bienvenue',
+    'Welcome to CHA': 'Bienvenue au Centre Hippique des Alpes',
+    'Start uploading media and sharing your work': 'Commencez en téléchargeant un média',
+    # Backend part
+    'Date produced': 'Date de publication',
     'Rider': 'Cavalier',
-    'Horse': 'Cheval'
+    'Horse': 'Cheval',
+    'State': 'Visibilité',
+    'state of media': 'qui peut voir ce média',
+    'Private': 'Uniquement moi',
+    'Public': 'Tout le monde',
+    'Title': 'Titre',
+    'Allow download': 'Autoriser le téléchargement',
+    'Whether option to download media is shown': 'cochez pour permettre le téléchargement du média',
+    'Media can be part of one or more categories': 'Le média peut être associé à une ou plusieurs compétitions (maintenez la touche CTRL)',
 
 }

@@ -43,9 +43,9 @@ MEDIA_ENCODING_STATUS = (
 # the media state of a Media object
 # this is set by default according to the portal workflow
 MEDIA_STATES = (
-    ("private", "Private"),
-    ("public", "Public"),
-    ("unlisted", "Unlisted"),
+    ("private", translate("Private")),
+    ("public", translate("Public")),
+    # ("unlisted", "Unlisted"),
 )
 
 # each uploaded Media gets a media_type hint
@@ -122,9 +122,11 @@ class Media(models.Model):
 
     add_date = models.DateTimeField(translate("Date produced"), blank=True, null=True, db_index=True)
 
-    allow_download = models.BooleanField(default=True, help_text="Whether option to download media is shown")
+    allow_download = models.BooleanField(translate("Allow download"), default=True,
+                                         help_text=translate("Whether option to download media is shown"))
 
-    category = models.ManyToManyField("Category", blank=True, help_text="Media can be part of one or more categories")
+    category = models.ManyToManyField("Category", blank=True, verbose_name=translate("Category"),
+                                      help_text=translate("Media can be part of one or more categories"))
 
     channel = models.ForeignKey(
         "users.Channel",
@@ -233,16 +235,17 @@ class Media(models.Model):
     )
 
     state = models.CharField(
+        translate('State'),
         max_length=20,
         choices=MEDIA_STATES,
         default=helpers.get_portal_workflow(),
         db_index=True,
-        help_text="state of Media",
+        help_text=translate("state of media"),
     )
 
     tags = models.ManyToManyField("Tag", blank=True, help_text="select one or more out of the existing tags")
 
-    title = models.CharField(max_length=100, blank=True, db_index=True)
+    title = models.CharField(translate("Title"), max_length=100, blank=True, db_index=True)
 
     thumbnail = ProcessedImageField(
         upload_to=original_thumbnail_file_path,
