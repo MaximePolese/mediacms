@@ -72,7 +72,7 @@ def upload_media(data):
                 category_name = row[1]
         print(title, category_name)
 
-        user = User.objects.get(username='cha')
+        user = User.objects.get(username='CHA')
 
         new_category, _ = Category.objects.get_or_create(title=category_name, user=user)
         new_rider_tag, _ = Tag.objects.get_or_create(title=helpers.get_alphanumeric_only(rider_tag), type='rider',

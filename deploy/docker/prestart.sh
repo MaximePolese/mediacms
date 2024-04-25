@@ -12,6 +12,7 @@ if [ X"$ENABLE_MIGRATIONS" = X"yes" ]; then
     else
         echo "Running loaddata and creating admin user"
         python manage.py loaddata fixtures/encoding_profiles.json
+        # TODO: Check why categories are created, fixtures/categories.json is empty
         python manage.py loaddata fixtures/categories.json
 
     	# post_save, needs redis to succeed (ie. migrate depends on redis)

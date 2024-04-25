@@ -38,7 +38,8 @@ services:
     environment:
       DEVELOPMENT_MODE: "True"
       ADMIN_USER: 'admin'
-      ADMIN_PASSWORD: 'ascanio'
+      #ADMIN_PASSWORD is auto generate with prestart.sh
+      ADMIN_PASSWORD: ''
       ADMIN_EMAIL: 'admin@localhost'
     ports:
       - "80:80"
