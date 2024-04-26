@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block headtitle %}{{FRONTEND_TRANSLATIONS.Sign_in}}{% endblock headtitle %}
 
@@ -8,7 +9,7 @@
 
 		<h1>{{FRONTEND_TRANSLATIONS.Sign_in}}</h1>
 
-		<p>If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.</p>
+		<p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 
 		<form class="login" method="POST" action="{% url 'account_login' %}">
 		  {% csrf_token %}
